@@ -12,16 +12,32 @@
  * ░     ░ ░      ░  ░
  * Created by PhpStorm.
  * User: qianjinxiao
- * Date: 2022/8/3
- * Time: 14:37
+ * Date: 2022/8/8
+ * Time: 10:13
  */
 
-namespace App\Admin\Interfaces;
+namespace App\Enum;
 
-use App\Models\ProjectInterface;
 use App\Models\SmallReservoirs\SmallReservoir;
 
-interface TabInterface
+class ProjectEnum
 {
-    public function custom_tab(ProjectInterface $item,string $type);
+
+    const SMALL_RESERVOIR = "small_reservoir";
+    const RIVER = "river";
+    public static $allType = [
+        self::SMALL_RESERVOIR,
+        self::RIVER,
+    ];
+    public static $project_list = [
+        [
+            'type' => self::SMALL_RESERVOIR,
+            'name' => '小型水库'
+        ],
+        [
+            'type' => self::RIVER,
+            'name' => '河道'
+        ]
+
+    ];
 }

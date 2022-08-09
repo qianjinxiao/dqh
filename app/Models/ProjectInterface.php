@@ -12,16 +12,14 @@
  * ░     ░ ░      ░  ░
  * Created by PhpStorm.
  * User: qianjinxiao
- * Date: 2022/8/3
- * Time: 14:37
+ * Date: 2022/8/4
+ * Time: 21:26
  */
 
-namespace App\Admin\Interfaces;
+namespace App\Models;
 
-use App\Models\ProjectInterface;
-use App\Models\SmallReservoirs\SmallReservoir;
 
-interface TabInterface
+interface ProjectInterface
 {
-    public function custom_tab(ProjectInterface $item,string $type);
+    public static function GetList();
 }

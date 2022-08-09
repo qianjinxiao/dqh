@@ -42,12 +42,21 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection payload
      * @property Grid\Column|Collection queue
      * @property Grid\Column|Collection uuid
+     * @property Grid\Column|Collection clock_date
+     * @property Grid\Column|Collection clock_end_date
+     * @property Grid\Column|Collection obj_id
+     * @property Grid\Column|Collection obj_type
+     * @property Grid\Column|Collection option_id
+     * @property Grid\Column|Collection status
      * @property Grid\Column|Collection email
      * @property Grid\Column|Collection token
      * @property Grid\Column|Collection abilities
      * @property Grid\Column|Collection last_used_at
      * @property Grid\Column|Collection tokenable_id
      * @property Grid\Column|Collection tokenable_type
+     * @property Grid\Column|Collection job
+     * @property Grid\Column|Collection project_id
+     * @property Grid\Column|Collection project_type
      * @property Grid\Column|Collection competent_department
      * @property Grid\Column|Collection competent_department_job
      * @property Grid\Column|Collection competent_department_name
@@ -69,7 +78,9 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection management_zip_code
      * @property Grid\Column|Collection small_reservoir_id
      * @property Grid\Column|Collection water_administration_department
-     * @property Grid\Column|Collection email_verified_at
+     * @property Grid\Column|Collection edu
+     * @property Grid\Column|Collection job_title
+     * @property Grid\Column|Collection professional
      *
      * @method Grid\Column|Collection created_at(string $label = null)
      * @method Grid\Column|Collection detail(string $label = null)
@@ -102,12 +113,21 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection payload(string $label = null)
      * @method Grid\Column|Collection queue(string $label = null)
      * @method Grid\Column|Collection uuid(string $label = null)
+     * @method Grid\Column|Collection clock_date(string $label = null)
+     * @method Grid\Column|Collection clock_end_date(string $label = null)
+     * @method Grid\Column|Collection obj_id(string $label = null)
+     * @method Grid\Column|Collection obj_type(string $label = null)
+     * @method Grid\Column|Collection option_id(string $label = null)
+     * @method Grid\Column|Collection status(string $label = null)
      * @method Grid\Column|Collection email(string $label = null)
      * @method Grid\Column|Collection token(string $label = null)
      * @method Grid\Column|Collection abilities(string $label = null)
      * @method Grid\Column|Collection last_used_at(string $label = null)
      * @method Grid\Column|Collection tokenable_id(string $label = null)
      * @method Grid\Column|Collection tokenable_type(string $label = null)
+     * @method Grid\Column|Collection job(string $label = null)
+     * @method Grid\Column|Collection project_id(string $label = null)
+     * @method Grid\Column|Collection project_type(string $label = null)
      * @method Grid\Column|Collection competent_department(string $label = null)
      * @method Grid\Column|Collection competent_department_job(string $label = null)
      * @method Grid\Column|Collection competent_department_name(string $label = null)
@@ -129,7 +149,9 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection management_zip_code(string $label = null)
      * @method Grid\Column|Collection small_reservoir_id(string $label = null)
      * @method Grid\Column|Collection water_administration_department(string $label = null)
-     * @method Grid\Column|Collection email_verified_at(string $label = null)
+     * @method Grid\Column|Collection edu(string $label = null)
+     * @method Grid\Column|Collection job_title(string $label = null)
+     * @method Grid\Column|Collection professional(string $label = null)
      */
     class Grid {}
 
@@ -167,12 +189,21 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection payload
      * @property Show\Field|Collection queue
      * @property Show\Field|Collection uuid
+     * @property Show\Field|Collection clock_date
+     * @property Show\Field|Collection clock_end_date
+     * @property Show\Field|Collection obj_id
+     * @property Show\Field|Collection obj_type
+     * @property Show\Field|Collection option_id
+     * @property Show\Field|Collection status
      * @property Show\Field|Collection email
      * @property Show\Field|Collection token
      * @property Show\Field|Collection abilities
      * @property Show\Field|Collection last_used_at
      * @property Show\Field|Collection tokenable_id
      * @property Show\Field|Collection tokenable_type
+     * @property Show\Field|Collection job
+     * @property Show\Field|Collection project_id
+     * @property Show\Field|Collection project_type
      * @property Show\Field|Collection competent_department
      * @property Show\Field|Collection competent_department_job
      * @property Show\Field|Collection competent_department_name
@@ -194,7 +225,9 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection management_zip_code
      * @property Show\Field|Collection small_reservoir_id
      * @property Show\Field|Collection water_administration_department
-     * @property Show\Field|Collection email_verified_at
+     * @property Show\Field|Collection edu
+     * @property Show\Field|Collection job_title
+     * @property Show\Field|Collection professional
      *
      * @method Show\Field|Collection created_at(string $label = null)
      * @method Show\Field|Collection detail(string $label = null)
@@ -227,12 +260,21 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection payload(string $label = null)
      * @method Show\Field|Collection queue(string $label = null)
      * @method Show\Field|Collection uuid(string $label = null)
+     * @method Show\Field|Collection clock_date(string $label = null)
+     * @method Show\Field|Collection clock_end_date(string $label = null)
+     * @method Show\Field|Collection obj_id(string $label = null)
+     * @method Show\Field|Collection obj_type(string $label = null)
+     * @method Show\Field|Collection option_id(string $label = null)
+     * @method Show\Field|Collection status(string $label = null)
      * @method Show\Field|Collection email(string $label = null)
      * @method Show\Field|Collection token(string $label = null)
      * @method Show\Field|Collection abilities(string $label = null)
      * @method Show\Field|Collection last_used_at(string $label = null)
      * @method Show\Field|Collection tokenable_id(string $label = null)
      * @method Show\Field|Collection tokenable_type(string $label = null)
+     * @method Show\Field|Collection job(string $label = null)
+     * @method Show\Field|Collection project_id(string $label = null)
+     * @method Show\Field|Collection project_type(string $label = null)
      * @method Show\Field|Collection competent_department(string $label = null)
      * @method Show\Field|Collection competent_department_job(string $label = null)
      * @method Show\Field|Collection competent_department_name(string $label = null)
@@ -254,7 +296,9 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection management_zip_code(string $label = null)
      * @method Show\Field|Collection small_reservoir_id(string $label = null)
      * @method Show\Field|Collection water_administration_department(string $label = null)
-     * @method Show\Field|Collection email_verified_at(string $label = null)
+     * @method Show\Field|Collection edu(string $label = null)
+     * @method Show\Field|Collection job_title(string $label = null)
+     * @method Show\Field|Collection professional(string $label = null)
      */
     class Show {}
 

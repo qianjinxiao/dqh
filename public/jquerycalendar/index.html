@@ -1,0 +1,84 @@
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>jQuery手机考勤日历插件</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">	
+		<!--日历Css样式-->
+		<link rel="stylesheet" type="text/css" href="css/Calendar.css" />
+		<!--jquery引用-->
+		<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+		<!--日历js-->
+		<script src="js/calendar/calendar.js"></script>
+	</head>
+
+	<body>
+		
+		<div class="mui-content">
+			<div class="duty-list">
+				<h2>jQuery移动端考勤记录</h2>
+				<div id="calendar" ></div>
+			</div>
+		</div>
+		<script>
+		$(function(){
+	  var data = [
+		{ startDate: "2019-8-10", name: "事件" },
+		{ startDate: "2019-9-10", name: "事件" },
+		{ startDate: "2019-7-1", name: "事件" },
+		{ startDate: "2019-6-2", name: "请假" },
+		{ startDate: "2019-5-3", name: "已打卡" },
+		{ startDate: "2019-4-4", name: "请假" },
+		{ startDate: "2019-5-5", name: "已打卡" },
+		{ startDate: "2019-3-6", name: "已打卡" },
+		{ startDate: "2019-7-7", name: "事件" },
+		{ startDate: "2019-5-8", name: "请假" },
+		{ startDate: "2019-6-9", name: "已打卡" },
+		{ startDate: "2019-7-10", name: "事件" },
+		{ startDate: "2019-8-11", name: "事件" },
+		{ startDate: "2019-9-12", name: "事件" },
+		{ startDate: "2019-10-13", name: "事件" },		
+		{ startDate: "2019-11-7", name: "事件" },
+		{ startDate: "2019-12-8", name: "请假" },
+		{ startDate: "2020-1-9", name: "已打卡" },
+		{ startDate: "2020-2-10", name: "事件" },
+		{ startDate: "2020-3-11", name: "事件" },
+		{ startDate: "2020-4-12", name: "事件" },
+		{ startDate: "2020-5-13", name: "事件" },	  
+		{ startDate: "2020-6-7", name: "事件" },
+		{ startDate: "2020-7-8", name: "请假" },
+		{ startDate: "2020-8-9", name: "已打卡" },
+		{ startDate: "2020-9-10", name: "事件" },
+		{ startDate: "2020-10-11", name: "事件" },
+		{ startDate: "2020-11-12", name: "事件" },
+		{ startDate: "2020-12-13", name: "事件" }, 
+		  
+    ]
+
+    $("#calendar").calendar({
+        data: data,
+        mode: "month",
+          maxEvent: 5,
+        showModeBtn: false,
+      //  newDate: "2018-04-1",
+        cellClick: function (events) {
+            //viewCell的事件列表
+        },
+		})
+
+
+		//  if(spantxt="请假"){
+		// 	$(this).find(".calendar-date").css("color","red");
+		// }
+		// if(spantxt="巡查"){
+		// 	$(this).find(".calendar-date").css("color","red");
+		// }
+		
+		
+})
+		</script>
+	</body>
+
+</html>

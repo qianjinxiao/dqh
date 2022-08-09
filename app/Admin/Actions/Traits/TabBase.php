@@ -19,10 +19,13 @@
 namespace App\Admin\Actions\Traits;
 
 use App\Admin\Actions\Tab;
+use App\Enum\ProjectEnum;
+use App\Models\ProjectInterface;
 use App\Models\SmallReservoirs\SmallReservoir;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Widgets\Card;
 use Illuminate\Support\Facades\Cache;
+use App\Factory\ProjectFactory;
 
 trait TabBase
 {
@@ -48,11 +51,12 @@ trait TabBase
     }
     public function tab($type)
     {
+        $project=ProjectFactory::CreateProject($this->project_type);
         $tab_class = "second_tab";
         $tab = Tab::make()->class($tab_class);
         $n = 0;
         $ts = Cache::get("tab_select_" . $tab_class);
-        SmallReservoir::GetSmallReservoir()->each(function ($item) use ($tab, $type, &$n, $ts) {
+        $project::GetList()->each(function ($item) use ($tab, $type, &$n, $ts) {
             $bool = ($n == $ts) ? true : false;
             $tab->add($item->name, $this->custom_tab($item,$type), $bool);
             $n++;

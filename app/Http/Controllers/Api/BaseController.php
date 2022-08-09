@@ -12,16 +12,15 @@
  * ░     ░ ░      ░  ░
  * Created by PhpStorm.
  * User: qianjinxiao
- * Date: 2022/8/3
- * Time: 14:37
+ * Date: 2022/8/8
+ * Time: 09:46
  */
 
-namespace App\Admin\Interfaces;
+namespace App\Http\Controllers\Api;
 
-use App\Models\ProjectInterface;
-use App\Models\SmallReservoirs\SmallReservoir;
+use App\Helpers\ApiResponse;
 
-interface TabInterface
+class BaseController
 {
-    public function custom_tab(ProjectInterface $item,string $type);
+    use ApiResponse;
 }
