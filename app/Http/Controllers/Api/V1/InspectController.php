@@ -31,7 +31,7 @@ class InspectController extends BaseController
 {
     public function clock(InspectClockRequest $request){
         $user=$request->user();
-        $data=$request->only('lat','lon','address');
+        $data=$request->only('lat','lon','address','macid');
         $model=InspectStatisticalService::getInstance()->clock($user,$request->input('project_type'),$request->project_id,$data);
         return $this->success($model);
     }

@@ -13,4 +13,7 @@ class UserImei extends Model
     public function user(){
         return $this->belongsTo(User::class,'user_id');
     }
+    public static function getDefault($user){
+        return UserImei::query()->where(['user_id'=>$user->id,'default'=>1])->first();
+    }
 }

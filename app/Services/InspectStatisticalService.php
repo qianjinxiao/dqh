@@ -18,6 +18,7 @@
 
 namespace App\Services;
 
+use App\Enum\ProjectEnum;
 use App\Exceptions\BusinessException;
 use App\Factory\ProjectFactory;
 use App\Helpers\ResponseEnum;
@@ -27,11 +28,17 @@ use App\Models\Inspect\InspectLog;
 use App\Models\Inspect\InspectStatistical;
 use App\Models\ProjectInterface;
 use App\Models\User;
+use App\Models\UserImei;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Static_;
 
 class InspectStatisticalService extends BaseService
 {
+    //使用gps的类型
+    protected static $gps_type=[
+       ProjectEnum::RIVER
+    ];
     /**
      * Notes:打卡
      * User: qianjinxiao
@@ -48,13 +55,24 @@ class InspectStatisticalService extends BaseService
         try {
             //查询对象
             $projectModel = $project->where('id', $id)->first();
+            if(!in_array($type,self::$gps_type)){
+                $lat=$data['lat'];
+                $lon=$data['lon'];
+                $address=$data['address'];
+            }else{
+                $device_info=UserImeiService::getInstance()->location($user,UserImei::getDefault($user)->macid);
+                $lat=$device_info['lat'];
+                $lon=$device_info['lon'];
+                $address=UserImeiService::getInstance()->decode_address($lat,$lon);
+            }
             $model = InspectClock::create([
                 'user_id' => $user->id,
                 'project_id' => $projectModel->id,
                 'project_type' => get_class($projectModel),
-                'address' => $data['address'],
-                'lat' => $data['lat'],
-                'lon' => $data['lon'],
+                'address' => $address,
+                'lat' => $lat,
+                'lon' => $lon,
+                'device_info'=>json_encode($device_info??[]),
                 'time' => Carbon::now(),
                 'water_level' => $data['water_level'] ?? '',
                 'report_status' => $data['report_status'] ?? 0,
@@ -74,8 +92,8 @@ class InspectStatisticalService extends BaseService
             };
             $clock_data->save();
             return $clock_data;
-        } catch (BusinessException $exception) {
-            $this->throwBusinessException();
+        } catch (\Exception $exception) {
+            $this->throwBusinessException([$exception->getCode(),$exception->getMessage()]);
         }
 
     }

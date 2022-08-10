@@ -14,5 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+//    \App\Services\Ditu\GaodeService::getInstance()->create_service();
+//    \App\Models\UserImei::find(1)->delete();
+    $a=\App\Services\UserImeiService::getInstance()->routerPass();
+    return header("Location:".$a);
 });

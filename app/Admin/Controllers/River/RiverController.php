@@ -3,17 +3,16 @@
 namespace App\Admin\Controllers\River;
 
 use App\Admin\Actions\Traits\TabBase;
-use App\Admin\Controllers\InspectStatisticalController;
 use App\Admin\Interfaces\TabInterface;
-use App\Admin\Renderable\InspectStatistical;
+use App\Admin\Renderable\Trajectory;
 use App\Enum\ProjectEnum;
-use App\Models\Inspect\InspectClock;
 use App\Models\Inspect\InspectClockData;
 use App\Models\ProjectInterface;
 use App\Models\River\River;
-use App\Models\SmallReservoirs\SmallReservoir;
+
 use Dcat\Admin\Grid;
 use Dcat\Admin\Http\Controllers\AdminController;
+use Dcat\Admin\Widgets\Modal;
 
 /**
  * 河道保洁
@@ -36,6 +35,9 @@ class RiverController extends AdminController implements TabInterface
         }
     }
     public function gird(ProjectInterface $item){
+        \Admin::js('/ditu/ditu.js');
+        \Admin::js('https://webapi.amap.com/ui/1.1/main.js?v=1.1.1');
+
         return Grid::make(InspectClockData::with(['user','startClock','endClock'])->orderBy("id",'desc'), function (Grid $grid) use ($item) {
             $grid->model()->where("project_id", $item->id)->where("project_type",get_class($item));
             $grid->column('user.name', '清洁人员');
@@ -43,6 +45,13 @@ class RiverController extends AdminController implements TabInterface
             $grid->column('startClock.address', '清洁起点');
             $grid->column('endClock.address', '清洁终点');
             $grid->column('status', '上报状态')->using(River::$reportMap);
+            $grid->actions(function (Grid\Displayers\Actions $action){
+                $action-> append( Modal::make()
+                    ->lg()
+                    ->title($this->title)
+                    ->body(Trajectory::make()->payload(['id'=>$this->id,'type'=>'GPS','macid'=>$this->macid,'user_id'=>$this->user_id]))
+                    ->button("轨迹"));
+            });
             $grid->disableViewButton();
             $grid->disableEditButton();
             $grid->disableDeleteButton();

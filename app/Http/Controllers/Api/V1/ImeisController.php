@@ -54,4 +54,11 @@ class ImeisController extends BaseController
         UserImeiService::getInstance()->un_bind($user, $macid);
         return $this->success();
     }
+    public function c_default($id,Request $request){
+        UserImei::query()->where(['user_id'=>$request->user()->id])->update(['default'=>0]);
+        $ui=UserImei::query()->find($id);
+        $ui->default=1;
+        $ui->save();
+        return $this->success();
+    }
 }

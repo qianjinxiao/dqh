@@ -36,6 +36,8 @@ Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
 
         //我的设备列表
         Route::get("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'list']);
+        //默认设备
+        Route::put("emei/{id}/default", [\App\Http\Controllers\Api\V1\ImeisController::class, 'c_default']);
 
     });
 });
