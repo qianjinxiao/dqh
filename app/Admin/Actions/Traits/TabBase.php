@@ -63,4 +63,5 @@ trait TabBase
         });
         return Card::make($tab);
     }
+
 }

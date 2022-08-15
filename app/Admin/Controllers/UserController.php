@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\User;
 use App\Services\UserImeiService;
+use Dcat\Admin\Actions\Action;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -29,6 +30,10 @@ class UserController extends AdminController
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
             $grid->disableViewButton();
+            $grid->actions(function ($action){
+                $user_id=$this->id;
+                $action->append("<a href='/admin/employees_imei?user_id=$user_id'>设备管理</a>");
+            });
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
                 $filter->like('name');

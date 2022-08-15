@@ -158,7 +158,21 @@ class UserImeiService extends BaseService
         ]);
         return $this->url . '?' . $param;
     }
-
+    //刷新mds
+    public function refresh_mds(User $user)
+    {
+        $this->url = "http://openapi.18gps.net/GetDataService.aspx";
+        $res = $this->get(http_build_query([
+            'method' => 'QueryApi',
+            'w' => 'RefreshMds',
+            'mds' => $user->mds,
+        ]));
+        $data = json_decode($res->body(), 1);
+        if ($data['success'] != 'true') {
+            $this->throwBusinessException([$data['errorCode'], $data['errorDescribe']]);
+        }
+        return $data['data'];
+    }
     //获取当前定位
     public function location(User $user, string $macid)
     {
