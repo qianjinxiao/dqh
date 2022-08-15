@@ -27,7 +27,7 @@ class CreateMaintenanceTable extends Migration
             $table->string('project_type')->default('');
             $table->integer('admin_id')->comment('上报人id');
             $table->tinyInteger('is_push')->comment('是否上报')->default(0);
-          
+
             $table->timestamps();
         });
     }

@@ -21,7 +21,7 @@ class WaterPlanController extends AdminController
     {
         $wp=WaterPlan::with([])->byProject($item)->orderBy("id", 'desc')->first();
         if($wp){
-            $list=WaterPlan::with([])->find($wp->id);
+            $list=WaterPlan::with([])->where('id',$wp->id);
         }else{
             $list=WaterPlan::with([])->byProject($item)->orderBy("id", 'desc');
         }
