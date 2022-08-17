@@ -99,8 +99,8 @@ trait ApiResponse
      * @param string $info
      * @throws BusinessException
      */
-    public function throwBusinessException(array $codeResponse=ResponseEnum::HTTP_ERROR, string $info = '')
+    public function throwBusinessException(array $codeResponse=ResponseEnum::HTTP_ERROR, string $info = '',$statusCode=500)
     {
-        throw new BusinessException($codeResponse, $info);
+        throw new BusinessException($codeResponse, $info,$statusCode);
     }
 }

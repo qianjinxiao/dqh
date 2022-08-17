@@ -2,11 +2,18 @@
 
 namespace App\Exceptions;
 
+use App\Helpers\ApiResponse;
+use App\Helpers\ResponseEnum;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use ApiResponse;
+
     /**
      * A list of the exception types that are not reported.
      *
@@ -37,5 +44,22 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+    public function render($request, Throwable $exception)
+    {
+        $code=$exception->getCode();
+        if ($exception instanceof AuthenticationException) {
+            $code=401;
+        } elseif ($exception instanceof ValidationException) {
+            $code=403;
+        }
+        return response()->json([
+            'status'  => 'fail',
+            'code'    => $code,
+            'message' => $exception->getMessage(),
+            'data'    => null,
+            'error'  => null,
+        ])->setStatusCode($code);
+
     }
 }

@@ -14,10 +14,11 @@ class BusinessException extends Exception
      */
     public function __construct(array $codeResponse, $info = '',$statusCode=500)
     {
+        $this->statusCode=$statusCode;
         [$code, $message] = $codeResponse;
         parent::__construct($info ?: $message, $code);
     }
-    public function render() {
+    public function render(){
         return response()->json([
             'status'  => 'fail',
             'code'    => $this->code,
