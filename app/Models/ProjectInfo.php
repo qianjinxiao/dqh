@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models\SmallReservoirs;
+namespace App\Models;
 
 use Dcat\Admin\Traits\HasDateTimeFormatter;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SmallReservoirsInfo extends Model
+class ProjectInfo extends Model
 {
 	use HasDateTimeFormatter;
-    protected $table = 'small_reservoirs_info';
+    protected $table = 'project_info';
     public $guarded=[];
 }

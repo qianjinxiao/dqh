@@ -85,6 +85,8 @@ class InspectStatisticalService extends BaseService
                 $clock_data->project_type = get_class($projectModel);
                 $clock_data->user_id = $user->id;
                 $clock_data->macid = $data['macid'] ?? 0;
+                $clock_data->status = 0;
+
             } else {
                 //结束记录轨迹
                 $clock_data->status = 1;
@@ -97,7 +99,19 @@ class InspectStatisticalService extends BaseService
         }
 
     }
+    public function show(User $user){
+        $model= InspectClockData::query()->where("user_id",$user->id)->orderBy("id",'desc')->first();
+        $start_time=InspectClock::query()->where("id",$model->start_clock_id)->value('time');
+        if(isset($start_time)){
+            $start_time=Carbon::parse($start_time)->format("H:i");
+        }
+        $end_time=InspectClock::query()->where("id",$model->end_clock_id)->value('time');
+        if(isset($start_time)) {
+            $start_time=Carbon::parse($end_time)->format("H:i");
 
+        }
+        return ['start'=>$start_time,'end'=>$end_time];
+    }
     public function project_list(string $type)
     {
         $project = ProjectFactory::CreateProject($type);

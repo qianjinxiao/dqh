@@ -39,7 +39,7 @@ class MaintenanceTrouble extends Model
         5 => '请求提供技术指导',
         6 => '其他',
     ];
-    public static $processStatusMap = [
+    public static $statusMap = [
         0 => '未审批',
         1 => '同意',
         2 => '拒绝',

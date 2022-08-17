@@ -10,7 +10,7 @@ use Dcat\Admin\Show;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Storage;
 
-class WaterPlanController extends AdminController
+class WaterPlanController extends BaseAdminController
 {
     /**
      * Make a grid builder.

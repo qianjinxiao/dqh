@@ -2,9 +2,7 @@
 
 use App\Admin\Controllers\CommonController;
 use App\Admin\Controllers\InspectStatisticalController;
-use App\Admin\Controllers\ScheduledController;
-use App\Admin\Controllers\SmallReservoirs\Project\ProjectController;
-use App\Admin\Controllers\SmallReservoirs\SmallReservoirsInfoController;
+use App\Admin\Controllers\ProjectController;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Dcat\Admin\Admin;
@@ -17,18 +15,14 @@ Route::group([
     'middleware' => config('admin.route.middleware'),
 ], function (Router $router) {
     $router->get('/', 'HomeController@index');
-    //小型水库
-    $router->group(['prefix' => 'small_reservoirs', 'namespace' => 'SmallReservoirs'], function (Router $router) {
-        $router->get('/', [SmallReservoirsInfoController::class, "index"]);//小型水库基础信息
-        $router->get('/user/{id}/edit', [SmallReservoirsInfoController::class, "edit_user"]);//编辑人员页面
-        $router->post('/', [SmallReservoirsInfoController::class, "update_info"]);//创建/修改基础信息
-        $router->post('/update_user', [SmallReservoirsInfoController::class, "update_user"]);//创建/修改人员方法
-        $router->delete('/user/{id}', [SmallReservoirsInfoController::class, "delete_user"]);//删除人员
-        //工程检查
-        $router->group(['prefix' => 'project', 'namespace' => 'Project'], function (Router $router) {
-            $router->get('/routine_inspections', [ProjectController::class, "index"]);//小型水库基础信息
-        });
-    });
+
+    $router->get('/info', [\App\Admin\Controllers\ProjectInfoController::class, "index"]);//基础信息
+    $router->get('/user/{id}/edit', [\App\Admin\Controllers\ProjectInfoController::class, "edit_user"]);//编辑人员页面
+    $router->post('/info', [\App\Admin\Controllers\ProjectInfoController::class, "update_info"]);//创建/修改基础信息
+    $router->post('/update_user', [\App\Admin\Controllers\ProjectInfoController::class, "update_user"]);//创建/修改人员方法
+    $router->delete('/user/{id}', [\App\Admin\Controllers\ProjectInfoController::class, "delete_user"]);//删除人员
+    //工程检查
+    $router->resource('/routine_inspections', '\App\Admin\Controllers\ProjectController');//日常巡查
     //调度运行
     $router->resource("/scheduled",'\App\Admin\Controllers\ScheduledController');
     //蓄防水记录
@@ -37,6 +31,8 @@ Route::group([
     $router->resource("/water_plan",'\App\Admin\Controllers\WaterPlanController');
     //应急预案
     $router->resource("/emergency_plan",'\App\Admin\Controllers\EmergencyPlanController');
+    //防汛物资
+    $router->resource("/emergency_supply",'\App\Admin\Controllers\EmergencySupplyController');
     //险情上报
     $router->resource("/emergency_report",'\App\Admin\Controllers\EmergencyReportController');
     //维修养护经费

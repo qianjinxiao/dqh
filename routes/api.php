@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\ImagesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,8 +27,13 @@ Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
     Route::get("inspect/project/{type}/list", [\App\Http\Controllers\Api\V1\InspectController::class, 'project_list']);
 
     Route::middleware('auth:api')->group(function () {
+        // 上传图片
+        Route::post('images', [ImagesController::class, 'store'])
+            ->name('images.store');
         //打卡
         Route::post("inspect/clock", [\App\Http\Controllers\Api\V1\InspectController::class, 'clock']);
+        //查看最后次打卡轨迹
+        Route::get("inspect/clock", [\App\Http\Controllers\Api\V1\InspectController::class, 'show']);
         //绑定设备
         Route::post("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'bind']);
 
@@ -38,6 +44,14 @@ Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
         Route::get("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'list']);
         //默认设备
         Route::put("emei/{id}/default", [\App\Http\Controllers\Api\V1\ImeisController::class, 'c_default']);
+        Route::prefix('problem')->group(function () {
+            //提交反馈
+            Route::post("/", [\App\Http\Controllers\Api\V1\ProblemController::class, 'create']);
+            //反馈记录
+            Route::get("/list", [\App\Http\Controllers\Api\V1\ProblemController::class, 'list']);
+            //反馈详情
+            Route::get("/{problem}", [\App\Http\Controllers\Api\V1\ProblemController::class, 'show']);
 
+        });
     });
 });

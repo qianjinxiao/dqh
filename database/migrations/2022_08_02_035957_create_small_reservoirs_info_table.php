@@ -13,9 +13,10 @@ class CreateSmallReservoirsInfoTable extends Migration
      */
     public function up()
     {
-        Schema::create('small_reservoirs_info', function (Blueprint $table) {
+        Schema::create('project_info', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('small_reservoir_id')->nullable()->comment('小型水库id');
+            $table->integer('project_id')->nullable()->comment('对象id');
+            $table->string('project_type')->nullable()->comment('对象类型');
             $table->string('management_name')->nullable()->comment('单位管理名称');
             $table->string('management_nature')->nullable()->comment('管理单位性质');
             $table->string('management_head')->nullable()->comment('管理单位负责人');
@@ -47,6 +48,6 @@ class CreateSmallReservoirsInfoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('small_reservoirs_info');
+        Schema::dropIfExists('project_info');
     }
 }

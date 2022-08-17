@@ -9,7 +9,7 @@ use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
 use Dcat\Admin\Http\Controllers\AdminController;
 
-class EmergencyReportController extends AdminController
+class EmergencyReportController extends BaseAdminController
 {
     /**
      * Make a grid builder.

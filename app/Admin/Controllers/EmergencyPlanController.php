@@ -10,11 +10,9 @@ use App\Models\ProjectInterface;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
-use Dcat\Admin\Http\Controllers\AdminController;
 
-class EmergencyPlanController extends AdminController implements TabInterface
+class EmergencyPlanController extends BaseAdminController implements TabInterface
 {
-    public $project_type = ProjectEnum::SMALL_RESERVOIR;//第一层tab
     use TabBase;
     const  PLAN = "plan";
     const  SUPPLIES = "supplies";
@@ -31,6 +29,8 @@ class EmergencyPlanController extends AdminController implements TabInterface
                 return $this->grid($item);
             case self::PUSH:
                 return (new EmergencyReportController())->grid($item);
+            case self::SUPPLIES:
+                return (new EmergencySupplyController())->grid($item);
         }
     }
     /**

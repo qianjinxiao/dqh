@@ -12,34 +12,22 @@
  * ░     ░ ░      ░  ░
  * Created by PhpStorm.
  * User: qianjinxiao
- * Date: 2022/8/8
- * Time: 10:16
+ * Date: 2022/8/17
+ * Time: 13:34
  */
 
-namespace App\Factory;
+namespace App\Admin\Controllers;
 
 use App\Enum\ProjectEnum;
-use App\Models\Pool\Pool;
-use App\Models\ProjectInterface;
-use App\Models\River\River;
-use App\Models\SmallReservoirs\SmallReservoir;
+use Dcat\Admin\Http\Controllers\AdminController;
 
-class ProjectFactory
+class BaseAdminController extends AdminController
 {
-    public static function CreateProject(string $type):ProjectInterface
+    public $project_type = ProjectEnum::SMALL_RESERVOIR;//第一层tab
+    public function __construct()
     {
-        $project=null;
-        switch ($type){
-            case ProjectEnum::SMALL_RESERVOIR://小型水库
-                $project= new SmallReservoir();
-                break;
-            case ProjectEnum::RIVER://小型水库
-                $project= new River();
-                break;
-            case ProjectEnum::POOL://山塘
-                $project= new Pool();
-                break;
+        if(request()->exists('project_type') && in_array(request('project_type'),ProjectEnum::$allType)){
+            $this->project_type=request('project_type');
         }
-        return $project;
     }
 }

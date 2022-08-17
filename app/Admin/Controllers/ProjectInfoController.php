@@ -1,19 +1,14 @@
 <?php
 
-namespace App\Admin\Controllers\SmallReservoirs;
+namespace App\Admin\Controllers;
 
 
 use App\Admin\Actions\Traits\TabBase;
-use App\Admin\Controllers\ProjectUserController;
 use App\Admin\Interfaces\TabInterface;
 use App\Enum\ProjectEnum;
+use App\Models\ProjectInfo;
 use App\Models\ProjectInterface;
-use App\Models\SmallReservoirs\SmallReservoir;
-use App\Models\SmallReservoirs\SmallReservoirsInfo;
-use App\Models\SmallReservoirs\SmallReservoirsUser;
-use App\Services\InspectStatisticalService;
 use Dcat\Admin\Form;
-use Dcat\Admin\Grid;
 use Dcat\Admin\Http\JsonResponse;
 
 
@@ -25,10 +20,9 @@ use function PHPUnit\Framework\throwException;
 /**
  * 基础信息
  */
-class SmallReservoirsInfoController extends AdminController implements TabInterface
+class ProjectInfoController extends BaseAdminController implements TabInterface
 {
     use TabBase;
-    public $project_type=ProjectEnum::SMALL_RESERVOIR;//第一层tab
 
     const  INFO = "info";
     const  USER = "user";
@@ -41,7 +35,7 @@ class SmallReservoirsInfoController extends AdminController implements TabInterf
     {
         switch ($type) {
             case self::INFO:
-                return $this->form($item->id);
+                return $this->form($item);
             case self::USER:
                 return (new ProjectUserController())->grid($item->id,get_class($item));
         }
@@ -54,19 +48,20 @@ class SmallReservoirsInfoController extends AdminController implements TabInterf
      *
      * @return Form
      */
-    protected function form($id)
+    protected function form(ProjectInterface $item)
     {
-        return Form::make( SmallReservoirsInfo::with([]), function (Form $form) use ($id) {
-            $m=SmallReservoirsInfo::query()->where('small_reservoir_id',$id)->first();
+        return Form::make( ProjectInfo::with([]), function (Form $form) use ($item) {
+            $m=ProjectInfo::query()->where('project_id',$item->id)->where('project_type',get_class($item))->first();
             $form->disableHeader();//隐藏头部
-            $form->action("/small_reservoirs");
+            $form->action("/info");
             $form->disableEditingCheck();
             $form->disableCreatingCheck();
             $form->disableResetButton();
             $form->disableViewCheck();
-            $form->column(6, function (Form $form) use ($id,$m) {
+            $form->column(6, function (Form $form) use ($item,$m) {
 
-                $form->hidden('small_reservoir_id')->value($id);
+                $form->hidden('project_id')->value($item->id);
+                $form->hidden('project_type')->value(get_class($item));
                 $form->text('management_name', '单位管理名称')->width(8, 4)->value($m->management_name??'');
                 $form->text('management_head', '管理单位负责人')->width(8, 4)->value($m->management_head??'');
                 $form->text('management_worker_num', '管理单位职工总数')->width(8, 4)->type('number')->value($m->management_worker_num??'');
@@ -104,7 +99,7 @@ class SmallReservoirsInfoController extends AdminController implements TabInterf
                 'management_nature', 'management_phone', 'management_worker_on_guard_num', 'management_address', 'water_administration_department',
                 'competent_department_job', 'competent_department_unit', 'government_branch_job', 'government_job', 'inspector_phone'
             ]);
-            SmallReservoirsInfo::query()->updateOrCreate(['small_reservoir_id' => $request->small_reservoir_id], $data);
+            ProjectInfo::query()->updateOrCreate(['project_id' => $request->project_id,'project_type' => $request->project_type], $data);
             return JsonResponse::make()->success('成功！');
         } catch (\Exception $e) {
             abort(500, "服务器异常");

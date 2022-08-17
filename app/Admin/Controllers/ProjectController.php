@@ -1,23 +1,19 @@
 <?php
 
-namespace App\Admin\Controllers\SmallReservoirs\Project;
+namespace App\Admin\Controllers;
 
 use App\Admin\Actions\Traits\TabBase;
-use App\Admin\Controllers\InspectStatisticalController;
 use App\Admin\Interfaces\TabInterface;
 use App\Admin\Renderable\InspectStatistical;
 use App\Enum\ProjectEnum;
 use App\Models\ProjectInterface;
-use App\Models\SmallReservoirs\SmallReservoir;
-use Dcat\Admin\Http\Controllers\AdminController;
 
 /**
  * 工程检查
  */
-class ProjectController extends AdminController implements TabInterface
+class ProjectController extends BaseAdminController implements TabInterface
 {
     use TabBase;
-    public $project_type=ProjectEnum::SMALL_RESERVOIR;//第一层tab
 
     const  STATISTICAL = "statistical";
     const  LOG = "log";

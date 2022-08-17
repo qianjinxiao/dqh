@@ -13,7 +13,7 @@ use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class InspectStatisticalController extends AdminController
+class InspectStatisticalController extends BaseAdminController
 {
     /**
      * Notes:巡查打卡

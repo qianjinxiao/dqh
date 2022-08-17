@@ -49,6 +49,11 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection desc
      * @property Grid\Column|Collection is_dispose
      * @property Grid\Column|Collection admin_id
+     * @property Grid\Column|Collection warehouse
+     * @property Grid\Column|Collection straw_bag
+     * @property Grid\Column|Collection sacks
+     * @property Grid\Column|Collection woven_bag
+     * @property Grid\Column|Collection Inflation_bag
      * @property Grid\Column|Collection uuid
      * @property Grid\Column|Collection connection
      * @property Grid\Column|Collection queue
@@ -80,14 +85,30 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection after_image
      * @property Grid\Column|Collection completed_at
      * @property Grid\Column|Collection is_complete
+     * @property Grid\Column|Collection code
+     * @property Grid\Column|Collection found_type
+     * @property Grid\Column|Collection found_at
+     * @property Grid\Column|Collection found_people
+     * @property Grid\Column|Collection defect_content
+     * @property Grid\Column|Collection image
+     * @property Grid\Column|Collection plan_completed_at
+     * @property Grid\Column|Collection rid_people
+     * @property Grid\Column|Collection rid_phone
+     * @property Grid\Column|Collection process_mode
+     * @property Grid\Column|Collection complete_image
+     * @property Grid\Column|Collection opinion
+     * @property Grid\Column|Collection note
+     * @property Grid\Column|Collection recipient
+     * @property Grid\Column|Collection is_send
+     * @property Grid\Column|Collection process_state
+     * @property Grid\Column|Collection is_push_yh
+     * @property Grid\Column|Collection is_push_result
      * @property Grid\Column|Collection email
      * @property Grid\Column|Collection token
      * @property Grid\Column|Collection tokenable_type
      * @property Grid\Column|Collection tokenable_id
      * @property Grid\Column|Collection abilities
      * @property Grid\Column|Collection last_used_at
-     * @property Grid\Column|Collection job
-     * @property Grid\Column|Collection small_reservoir_id
      * @property Grid\Column|Collection management_name
      * @property Grid\Column|Collection management_nature
      * @property Grid\Column|Collection management_head
@@ -108,6 +129,7 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection government_job
      * @property Grid\Column|Collection inspector_name
      * @property Grid\Column|Collection inspector_phone
+     * @property Grid\Column|Collection job
      * @property Grid\Column|Collection default
      * @property Grid\Column|Collection edu
      * @property Grid\Column|Collection professional
@@ -154,6 +176,11 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection desc(string $label = null)
      * @method Grid\Column|Collection is_dispose(string $label = null)
      * @method Grid\Column|Collection admin_id(string $label = null)
+     * @method Grid\Column|Collection warehouse(string $label = null)
+     * @method Grid\Column|Collection straw_bag(string $label = null)
+     * @method Grid\Column|Collection sacks(string $label = null)
+     * @method Grid\Column|Collection woven_bag(string $label = null)
+     * @method Grid\Column|Collection Inflation_bag(string $label = null)
      * @method Grid\Column|Collection uuid(string $label = null)
      * @method Grid\Column|Collection connection(string $label = null)
      * @method Grid\Column|Collection queue(string $label = null)
@@ -185,14 +212,30 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection after_image(string $label = null)
      * @method Grid\Column|Collection completed_at(string $label = null)
      * @method Grid\Column|Collection is_complete(string $label = null)
+     * @method Grid\Column|Collection code(string $label = null)
+     * @method Grid\Column|Collection found_type(string $label = null)
+     * @method Grid\Column|Collection found_at(string $label = null)
+     * @method Grid\Column|Collection found_people(string $label = null)
+     * @method Grid\Column|Collection defect_content(string $label = null)
+     * @method Grid\Column|Collection image(string $label = null)
+     * @method Grid\Column|Collection plan_completed_at(string $label = null)
+     * @method Grid\Column|Collection rid_people(string $label = null)
+     * @method Grid\Column|Collection rid_phone(string $label = null)
+     * @method Grid\Column|Collection process_mode(string $label = null)
+     * @method Grid\Column|Collection complete_image(string $label = null)
+     * @method Grid\Column|Collection opinion(string $label = null)
+     * @method Grid\Column|Collection note(string $label = null)
+     * @method Grid\Column|Collection recipient(string $label = null)
+     * @method Grid\Column|Collection is_send(string $label = null)
+     * @method Grid\Column|Collection process_state(string $label = null)
+     * @method Grid\Column|Collection is_push_yh(string $label = null)
+     * @method Grid\Column|Collection is_push_result(string $label = null)
      * @method Grid\Column|Collection email(string $label = null)
      * @method Grid\Column|Collection token(string $label = null)
      * @method Grid\Column|Collection tokenable_type(string $label = null)
      * @method Grid\Column|Collection tokenable_id(string $label = null)
      * @method Grid\Column|Collection abilities(string $label = null)
      * @method Grid\Column|Collection last_used_at(string $label = null)
-     * @method Grid\Column|Collection job(string $label = null)
-     * @method Grid\Column|Collection small_reservoir_id(string $label = null)
      * @method Grid\Column|Collection management_name(string $label = null)
      * @method Grid\Column|Collection management_nature(string $label = null)
      * @method Grid\Column|Collection management_head(string $label = null)
@@ -213,6 +256,7 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection government_job(string $label = null)
      * @method Grid\Column|Collection inspector_name(string $label = null)
      * @method Grid\Column|Collection inspector_phone(string $label = null)
+     * @method Grid\Column|Collection job(string $label = null)
      * @method Grid\Column|Collection default(string $label = null)
      * @method Grid\Column|Collection edu(string $label = null)
      * @method Grid\Column|Collection professional(string $label = null)
@@ -264,6 +308,11 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection desc
      * @property Show\Field|Collection is_dispose
      * @property Show\Field|Collection admin_id
+     * @property Show\Field|Collection warehouse
+     * @property Show\Field|Collection straw_bag
+     * @property Show\Field|Collection sacks
+     * @property Show\Field|Collection woven_bag
+     * @property Show\Field|Collection Inflation_bag
      * @property Show\Field|Collection uuid
      * @property Show\Field|Collection connection
      * @property Show\Field|Collection queue
@@ -295,14 +344,30 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection after_image
      * @property Show\Field|Collection completed_at
      * @property Show\Field|Collection is_complete
+     * @property Show\Field|Collection code
+     * @property Show\Field|Collection found_type
+     * @property Show\Field|Collection found_at
+     * @property Show\Field|Collection found_people
+     * @property Show\Field|Collection defect_content
+     * @property Show\Field|Collection image
+     * @property Show\Field|Collection plan_completed_at
+     * @property Show\Field|Collection rid_people
+     * @property Show\Field|Collection rid_phone
+     * @property Show\Field|Collection process_mode
+     * @property Show\Field|Collection complete_image
+     * @property Show\Field|Collection opinion
+     * @property Show\Field|Collection note
+     * @property Show\Field|Collection recipient
+     * @property Show\Field|Collection is_send
+     * @property Show\Field|Collection process_state
+     * @property Show\Field|Collection is_push_yh
+     * @property Show\Field|Collection is_push_result
      * @property Show\Field|Collection email
      * @property Show\Field|Collection token
      * @property Show\Field|Collection tokenable_type
      * @property Show\Field|Collection tokenable_id
      * @property Show\Field|Collection abilities
      * @property Show\Field|Collection last_used_at
-     * @property Show\Field|Collection job
-     * @property Show\Field|Collection small_reservoir_id
      * @property Show\Field|Collection management_name
      * @property Show\Field|Collection management_nature
      * @property Show\Field|Collection management_head
@@ -323,6 +388,7 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection government_job
      * @property Show\Field|Collection inspector_name
      * @property Show\Field|Collection inspector_phone
+     * @property Show\Field|Collection job
      * @property Show\Field|Collection default
      * @property Show\Field|Collection edu
      * @property Show\Field|Collection professional
@@ -369,6 +435,11 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection desc(string $label = null)
      * @method Show\Field|Collection is_dispose(string $label = null)
      * @method Show\Field|Collection admin_id(string $label = null)
+     * @method Show\Field|Collection warehouse(string $label = null)
+     * @method Show\Field|Collection straw_bag(string $label = null)
+     * @method Show\Field|Collection sacks(string $label = null)
+     * @method Show\Field|Collection woven_bag(string $label = null)
+     * @method Show\Field|Collection Inflation_bag(string $label = null)
      * @method Show\Field|Collection uuid(string $label = null)
      * @method Show\Field|Collection connection(string $label = null)
      * @method Show\Field|Collection queue(string $label = null)
@@ -400,14 +471,30 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection after_image(string $label = null)
      * @method Show\Field|Collection completed_at(string $label = null)
      * @method Show\Field|Collection is_complete(string $label = null)
+     * @method Show\Field|Collection code(string $label = null)
+     * @method Show\Field|Collection found_type(string $label = null)
+     * @method Show\Field|Collection found_at(string $label = null)
+     * @method Show\Field|Collection found_people(string $label = null)
+     * @method Show\Field|Collection defect_content(string $label = null)
+     * @method Show\Field|Collection image(string $label = null)
+     * @method Show\Field|Collection plan_completed_at(string $label = null)
+     * @method Show\Field|Collection rid_people(string $label = null)
+     * @method Show\Field|Collection rid_phone(string $label = null)
+     * @method Show\Field|Collection process_mode(string $label = null)
+     * @method Show\Field|Collection complete_image(string $label = null)
+     * @method Show\Field|Collection opinion(string $label = null)
+     * @method Show\Field|Collection note(string $label = null)
+     * @method Show\Field|Collection recipient(string $label = null)
+     * @method Show\Field|Collection is_send(string $label = null)
+     * @method Show\Field|Collection process_state(string $label = null)
+     * @method Show\Field|Collection is_push_yh(string $label = null)
+     * @method Show\Field|Collection is_push_result(string $label = null)
      * @method Show\Field|Collection email(string $label = null)
      * @method Show\Field|Collection token(string $label = null)
      * @method Show\Field|Collection tokenable_type(string $label = null)
      * @method Show\Field|Collection tokenable_id(string $label = null)
      * @method Show\Field|Collection abilities(string $label = null)
      * @method Show\Field|Collection last_used_at(string $label = null)
-     * @method Show\Field|Collection job(string $label = null)
-     * @method Show\Field|Collection small_reservoir_id(string $label = null)
      * @method Show\Field|Collection management_name(string $label = null)
      * @method Show\Field|Collection management_nature(string $label = null)
      * @method Show\Field|Collection management_head(string $label = null)
@@ -428,6 +515,7 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection government_job(string $label = null)
      * @method Show\Field|Collection inspector_name(string $label = null)
      * @method Show\Field|Collection inspector_phone(string $label = null)
+     * @method Show\Field|Collection job(string $label = null)
      * @method Show\Field|Collection default(string $label = null)
      * @method Show\Field|Collection edu(string $label = null)
      * @method Show\Field|Collection professional(string $label = null)

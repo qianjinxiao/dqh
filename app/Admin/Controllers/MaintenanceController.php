@@ -16,11 +16,10 @@ use Dcat\Admin\Show;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Widgets\Card;
 
-class MaintenanceController extends AdminController implements TabInterface
+class MaintenanceController extends BaseAdminController implements TabInterface
 {
     use TabBase;
 
-    public $project_type = ProjectEnum::SMALL_RESERVOIR;//第一层tab
 
     const  TYPE1 = "type1";
     const  TYPE2 = "type2";

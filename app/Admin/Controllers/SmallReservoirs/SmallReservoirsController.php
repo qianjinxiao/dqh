@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers\SmallReservoirs;
 
-use App\Models\SmallReservoirs\SmallReservoirsInfo;
+use App\Models\SmallReservoirs\ProjectInfo;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Layout\Content;

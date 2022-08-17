@@ -13,7 +13,7 @@ use Dcat\Admin\Show;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Widgets\Card;
 
-class MaintenanceProjectController extends AdminController
+class MaintenanceProjectController extends BaseAdminController
 {
     /**
      * Make a grid builder.

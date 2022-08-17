@@ -8,7 +8,7 @@ use App\Enum\ProjectEnum;
 use App\Models\Inspect\InspectClockData;
 use App\Models\ProjectInterface;
 use App\Models\Scheduled;
-use App\Models\SmallReservoirs\SmallReservoirsInfo;
+use App\Models\SmallReservoirs\ProjectInfo;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Layout\Content;
@@ -16,11 +16,10 @@ use Dcat\Admin\Show;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Widgets\Tab;
 
-class ScheduledController extends AdminController implements TabInterface
+class ScheduledController extends BaseAdminController implements TabInterface
 {
     use TabBase;
 
-    public $project_type = ProjectEnum::SMALL_RESERVOIR;//第一层tab
 
     const  PLAN = "plan";
     protected static $tabMap = [

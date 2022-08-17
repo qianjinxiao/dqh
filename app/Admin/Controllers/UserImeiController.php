@@ -11,7 +11,7 @@ use Dcat\Admin\Show;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Hash;
 
-class UserImeiController extends AdminController
+class UserImeiController extends BaseAdminController
 {
     public $title='设备绑定';
     /**
@@ -22,7 +22,9 @@ class UserImeiController extends AdminController
     protected function grid()
     {
         return Grid::make(new UserImei(), function (Grid $grid) {
-            $grid->model()->where('user_id',request('user_id'));
+            if(request()->exists('user_id')){
+                $grid->model()->where('user_id',request('user_id'));
+            }
             $grid->column('id')->sortable();
             $grid->column('name','名字');
             $grid->column('macid','设备号');

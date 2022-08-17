@@ -12,11 +12,10 @@ use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
 use Dcat\Admin\Http\Controllers\AdminController;
 
-class WaterController extends AdminController implements TabInterface
+class WaterController extends BaseAdminController implements TabInterface
 {
     use TabBase;
 
-    public $project_type = ProjectEnum::SMALL_RESERVOIR;//第一层tab
 
     const  WATER_LOG = "water_log";
     const  WATER_PLAN = "water_plan";
