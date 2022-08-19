@@ -96,8 +96,8 @@ class UserImeiService extends BaseService
             'mds' => $user->mds,
             'nickname' => $fishing_name
         ]));
-        try {
             $data = json_decode($res->body(), 1);
+
             if ($data['success'] == 'true') {
                 if (UserImei::query()->where(['user_id' => $user->id, 'default' => 1])->exists()) {
                     $default = 0;
@@ -113,9 +113,6 @@ class UserImeiService extends BaseService
             } else {
                 $this->throwBusinessException([$data['errorCode'], $data['errorDescribe']]);
             }
-        } catch (BusinessException $exception) {
-            $this->throwBusinessException(ResponseEnum::SYSTEM_ERROR);
-        }
 
     }
 
