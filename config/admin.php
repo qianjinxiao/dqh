@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => '东钱湖项目',
+    'name' => '东钱湖山水田林地全域管理平台',
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<img src="/vendor/dcat-admin/images/logo.png" width="35"> &nbsp;东钱湖项目',
+    'logo' => '<img src="/vendor/dcat-admin/images/logo.png" width="35"> &nbsp;东钱湖山水田林地全域管理平台',
 
     /*
     |--------------------------------------------------------------------------
