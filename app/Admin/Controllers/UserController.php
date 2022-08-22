@@ -89,7 +89,7 @@ class UserController extends AdminController
             });
             $form->saved(function (Form $form){
                if($form->input('macid')!=""){
-                    $res=UserImeiService::getInstance()->Reg(User::find($form->getKey()),$form->input('macid'),$form->input('fishing_name'));
+                    $res=UserImeiService::getInstance()->loginDevice(User::find($form->getKey()),$form->input('macid'),$form->input('fishing_name'));
                }
             });
         });

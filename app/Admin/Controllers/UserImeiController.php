@@ -55,6 +55,7 @@ class UserImeiController extends BaseAdminController
             $form->select('user_id','选择员工')->options(User::query()->pluck('name','id'));
             $form->text('name','姓名');
             $form->text('macid','设备号');
+            $form->hidden('default')->default(0);
 
             $form->display('created_at');
             $form->display('updated_at');

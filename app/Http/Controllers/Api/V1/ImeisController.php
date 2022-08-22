@@ -19,6 +19,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\ApiResponse;
+use App\Helpers\ResponseEnum;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\UserLoginRequest;
 use App\Models\SmallReservoirs\SmallReservoir;
@@ -43,7 +44,10 @@ class ImeisController extends BaseController
         $user = $request->user();
         $macid = $request->input('macid');
         $fishing_name = $request->input('fishing_name');
-        UserImeiService::getInstance()->bind($user, $macid, $fishing_name);
+        if(UserImei::query()->where(['user_id'=>$user->id,'macid'=>$macid])->exists()){
+            return $this->fail(ResponseEnum::DEVICE_ACCOUNT_REGISTERED, $data = null, $error=null);
+        }
+        UserImeiService::getInstance()->loginDevice($user, $macid, $fishing_name);
         return $this->success();
     }
 
@@ -51,7 +55,8 @@ class ImeisController extends BaseController
     {
         $user = $request->user();
         $macid = $request->input('macid');
-        UserImeiService::getInstance()->un_bind($user, $macid);
+//        UserImeiService::getInstance()->un_bind($user, $macid);
+        UserImei::query()->where(['user_id'=>$user->id,'macid'=>$macid])->delete();
         return $this->success();
     }
     public function c_default($id,Request $request){

@@ -41,7 +41,7 @@ class RefreshMds extends Command
      */
     public function handle()
     {
-        User::query()->whereNotNull("mds")->get()->each(function ($item){
+        UserImei::query()->whereNotNull("mds")->get()->each(function ($item){
             UserImeiService::getInstance()->refresh_mds($item);
         });
     }

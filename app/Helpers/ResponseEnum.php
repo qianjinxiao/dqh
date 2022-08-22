@@ -24,6 +24,8 @@ class ResponseEnum
     const USER_SERVICE_REGISTER_SUCCESS = [200104, '注册成功'];
     const USER_SERVICE_REGISTER_ERROR = [200105, '注册失败'];
     const USER_ACCOUNT_REGISTERED = [23001, '账号已注册'];
+    //设备
+    const DEVICE_ACCOUNT_REGISTERED = [24001, '设备已重复绑定'];
 
 
     /*-------------------------------------------------------------------------------------------*/

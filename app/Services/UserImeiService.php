@@ -126,7 +126,6 @@ class UserImeiService extends BaseService
             'macid' => $macid,
             'mds' => $user->mds,
         ]));
-        try {
             $data = json_decode($res->body(), 1);
             if ($data['success'] == 'true') {
                 UserImei::query()->where([
@@ -136,9 +135,7 @@ class UserImeiService extends BaseService
             } else {
                 $this->throwBusinessException([$data['errorCode'], $data['errorDescribe']]);
             }
-        } catch (BusinessException $exception) {
-            $this->throwBusinessException(ResponseEnum::SYSTEM_ERROR);
-        }
+
 
     }
 
@@ -156,13 +153,13 @@ class UserImeiService extends BaseService
         return $this->url . '?' . $param;
     }
     //刷新mds
-    public function refresh_mds(User $user)
+    public function refresh_mds(UserImei $userImei)
     {
         $this->url = "http://openapi.18gps.net/GetDataService.aspx";
         $res = $this->get(http_build_query([
             'method' => 'QueryApi',
             'w' => 'RefreshMds',
-            'mds' => $user->mds,
+            'mds' => $userImei->mds,
         ]));
         $data = json_decode($res->body(), 1);
         if ($data['success'] != 'true') {
@@ -171,14 +168,14 @@ class UserImeiService extends BaseService
         return $data['data'];
     }
     //获取当前定位
-    public function location(User $user, string $macid)
+    public function location(string $mds, string $macid)
     {
         $this->url = "http://openapi.18gps.net/GetDataService.aspx";
         $res = $this->get(http_build_query([
             'method' => 'QueryApi',
             'w' => 'Location',
             'macid' => $macid,
-            'mds' => $user->mds,
+            'mds' => $mds,
         ]));
         $data = json_decode($res->body(), 1);
         if ($data['success'] != 'true') {
@@ -216,5 +213,30 @@ class UserImeiService extends BaseService
             // 请求失败
             $this->throwBusinessException(ResponseEnum::SYSTEM_ERROR);
         }
+    }
+    public function loginDevice($user, $macid, $fishing_name){
+
+        $this->url = "http://openapi.18gps.net/GetDataService.aspx";
+        $res = $this->get(http_build_query([
+            'method' => 'SignApi',
+            'w' => 'DeviceLogin',
+            'macid' => $macid,
+            'password'=>'123456'
+        ]));
+        $data = json_decode($res->body(), 1);
+        if ($data['success'] == 'true') {
+            UserImei::query()->where(['user_id'=>$user->id])->update(['default'=>0]);
+            UserImei::query()->create([
+                'user_id'=>$user->id,
+                'macid'=>$macid,
+                'mds'=>$data['data']['mds'],
+                'name'=>$fishing_name,
+                'default'=>1
+            ]);
+
+        }else{
+            $this->throwBusinessException([$data['errorCode'], $data['errorDescribe']]);
+        }
+        return $data['data'];
     }
 }
