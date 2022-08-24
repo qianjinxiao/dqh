@@ -43,7 +43,7 @@ class Events
         $inspect_log=InspectLog::query()->where('client_id',$client_id)->orderBy("id",'desc')->first();
         if($inspect_log){
             $clock_data=InspectClockData::query()->find($inspect_log->inspect_data_id);
-            if($clock_data->status==1){
+            if($clock_data->status==1 || $clock_data->status==2){
                 return;
             }
             $clock= InspectClock::query()->create([
