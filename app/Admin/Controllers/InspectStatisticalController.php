@@ -66,6 +66,7 @@ class InspectStatisticalController extends BaseAdminController
             $grid->column('user.name', '打卡人员');
             $grid->column('time', '打卡时间');
             $grid->column('address', '打卡地点');
+            $grid->column('report_status', '状态')->using([0=>'正常',2=>'异常系统自动结束']);
             $grid->disableViewButton();
             $grid->disableEditButton();
             $grid->disableDeleteButton();
