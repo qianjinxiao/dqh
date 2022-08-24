@@ -131,12 +131,15 @@ class InspectStatisticalService extends BaseService
     public function pushAdd($data,$client_id)
     {
         try {
-            InspectLog::query()->create([
-                'inspect_data_id' => $data['inspect_data_id'],
-                'lat' => $data['lat'],
-                'lon' => $data['lon'],
-                'client_id'=>$client_id
-            ]);
+            $model = InspectClockData::query()->find($data['inspect_data_id']);
+            if($model->status==0){
+                InspectLog::query()->create([
+                    'inspect_data_id' => $data['inspect_data_id'],
+                    'lat' => $data['lat'],
+                    'lon' => $data['lon'],
+                    'client_id'=>$client_id
+                ]);
+            }
             return $this->success();
         } catch (\Exception $exception) {
            return $this->fail();
