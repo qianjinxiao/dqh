@@ -59,7 +59,11 @@ class UserImeiController extends BaseAdminController
 
             $form->display('created_at');
             $form->display('updated_at');
-
+            $form->saved(function (Form $form){
+                $model=UserImei::query()->find($form->getKey());
+                $user=User::query()->find($model->user_id);
+                UserImeiService::getInstance()->loginDevice($user, $model->macid, $model->name);
+            });
         });
     }
 }

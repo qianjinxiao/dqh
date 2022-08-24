@@ -10,6 +10,7 @@ class UserImei extends Model
 {
     use HasDateTimeFormatter;
     protected $table = 'user_imei';
+    public $guarded=[];
     public function user(){
         return $this->belongsTo(User::class,'user_id');
     }

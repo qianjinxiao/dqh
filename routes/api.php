@@ -27,11 +27,18 @@ Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
     Route::get("inspect/project/{type}/list", [\App\Http\Controllers\Api\V1\InspectController::class, 'project_list']);
 
     Route::middleware('auth:api')->group(function () {
+        //我的信息
+        Route::get("mine", [\App\Http\Controllers\Api\V1\UserController::class, 'mine']);
+
         // 上传图片
         Route::post('images', [ImagesController::class, 'store'])
             ->name('images.store');
         //打卡
         Route::post("inspect/clock", [\App\Http\Controllers\Api\V1\InspectController::class, 'clock']);
+        //打卡每月汇总
+        Route::get("inspect/count", [\App\Http\Controllers\Api\V1\InspectController::class, 'count']);
+        Route::get("inspect/count_by_day", [\App\Http\Controllers\Api\V1\InspectController::class, 'count_by_day']);
+
         //查看最后次打卡轨迹
         Route::get("inspect/clock", [\App\Http\Controllers\Api\V1\InspectController::class, 'show']);
         //绑定设备

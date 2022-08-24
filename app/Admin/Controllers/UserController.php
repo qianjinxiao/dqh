@@ -24,6 +24,7 @@ class UserController extends AdminController
         return Grid::make(new User(), function (Grid $grid) {
             $grid->column('id')->sortable();
             $grid->column('name','姓名');
+            $grid->column('avatar','头像')->image();
             $grid->column('edu','学历');
             $grid->column('professional','专业');
             $grid->column('job_title','职称');
@@ -74,6 +75,7 @@ class UserController extends AdminController
         return Form::make( User::with("imei"), function (Form $form) {
             $form->display('id');
             $form->text('name','姓名');
+            $form->image('avatar','头像')->saveFullUrl()->autoUpload()->autoSave()->uniqueName();
             $form->text('edu','学历');
             $form->text('professional','专业');
             $form->text('job_title','职称');
