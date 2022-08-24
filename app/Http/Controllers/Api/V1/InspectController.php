@@ -74,4 +74,12 @@ class InspectController extends BaseController
 
         return $this->success($return);
     }
+    public function table(Request $request){
+        $table=$request->input('table');
+        $inspect_data_id=$request->input('inspect_data_id');
+        $data=InspectClockData::query()->find($inspect_data_id);
+        $data->inspect_table=$table;
+        $data->save();
+        return $table-$this->success();
+    }
 }

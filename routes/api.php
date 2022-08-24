@@ -35,6 +35,7 @@ Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
             ->name('images.store');
         //打卡
         Route::post("inspect/clock", [\App\Http\Controllers\Api\V1\InspectController::class, 'clock']);
+        Route::post("inspect/table", [\App\Http\Controllers\Api\V1\InspectController::class, 'table']);
         //打卡每月汇总
         Route::get("inspect/count", [\App\Http\Controllers\Api\V1\InspectController::class, 'count']);
         Route::get("inspect/count_by_day", [\App\Http\Controllers\Api\V1\InspectController::class, 'count_by_day']);

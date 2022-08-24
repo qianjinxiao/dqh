@@ -24,6 +24,12 @@ class InspectClockData extends Model
     public function endClock(){
         return $this->belongsTo(InspectClock::class,'end_clock_id');
     }
+    public function setInspectTableAttribute($value){
+        $this->attributes['inspect_table']=json_encode($value);
+    }
+    public function getInspectTableAttribute($value){
+        return json_decode($value,1);
+    }
     public static function GetUserLastClock($user,$project){
         $data=InspectClockData::query()->where([
             'user_id'=>$user->id,
