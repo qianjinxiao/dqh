@@ -14,9 +14,11 @@ class SmallReservoir extends Model implements ProjectInterface
     public $guarded=[];
     const SUCCESS = 1;
     const FAIL = 0;
+    const ERROR = 2;
     public static $reportMap = [
         self::SUCCESS => '已巡查',
         self::FAIL => '未巡查',
+        self::ERROR => '异常结束',
     ];
     public static function GetList(){
         return SmallReservoir::query()->get();

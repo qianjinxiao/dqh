@@ -43,6 +43,7 @@ class InspectStatisticalController extends BaseAdminController
     public function grid_log($class,$id){
         return  Grid::make(InspectClockData::with(['user','startClock','endClock'])->orderBy("id",'desc'), function (Grid $grid) use ($class,$id) {
             $grid->model()->where("project_id", $id)->where("project_type",$class);
+            $grid->column('id', 'ID');
             $grid->column('user.name', '巡查人员');
             $grid->column('startClock.time', '巡查时间');
             $grid->column('startClock.water_level', '水位');
@@ -63,7 +64,7 @@ class InspectStatisticalController extends BaseAdminController
         return Grid::make(InspectClock::with(['user']), function (Grid $grid) use ($class,$id) {
             $grid->model()->where("project_id", $id)->where("project_type",$class);
             $grid->column('user.name', '打卡人员');
-            $grid->column('time', '开始时间');
+            $grid->column('time', '打卡时间');
             $grid->column('address', '打卡地点');
             $grid->disableViewButton();
             $grid->disableEditButton();
