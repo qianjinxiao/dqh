@@ -19,6 +19,7 @@
 namespace App\Factory;
 
 use App\Enum\ProjectEnum;
+use App\Models\DrinkingWater\DrinkingWater;
 use App\Models\Pool\Pool;
 use App\Models\ProjectInterface;
 use App\Models\River\River;
@@ -38,6 +39,9 @@ class ProjectFactory
                 break;
             case ProjectEnum::POOL://山塘
                 $project= new Pool();
+                break;
+            case ProjectEnum::DRINKING_WATER://山塘
+                $project= new DrinkingWater();
                 break;
         }
         return $project;

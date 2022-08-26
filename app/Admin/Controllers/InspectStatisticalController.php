@@ -50,6 +50,13 @@ class InspectStatisticalController extends BaseAdminController
             $grid->column('startClock.address', '巡查开始地点');
             $grid->column('endClock.address', '巡查结束地点');
             $grid->column('status', '上报状态')->using(SmallReservoir::$reportMap);
+            $grid->column('log','查看')->expand(function () {
+                // 返回打卡详情
+                // 这里返回 content 字段内容，并用 Card 包裹起来
+//                $card = new Card(null, $this->content);
+//
+//                return "<div style='padding:10px 10px 0'>$card</div>";
+            });
             $grid->disableViewButton();
             $grid->disableEditButton();
             $grid->disableDeleteButton();
@@ -61,7 +68,7 @@ class InspectStatisticalController extends BaseAdminController
      * 打卡人员
      */
     public function grid_log_user($class,$id){
-        return Grid::make(InspectClock::with(['user']), function (Grid $grid) use ($class,$id) {
+        return Grid::make(InspectClock::with(['user'])->orderBy("id",'desc'), function (Grid $grid) use ($class,$id) {
             $grid->model()->where("project_id", $id)->where("project_type",$class);
             $grid->column('user.name', '打卡人员');
             $grid->column('time', '打卡时间');

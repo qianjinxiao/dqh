@@ -52,6 +52,15 @@ Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
         Route::get("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'list']);
         //默认设备
         Route::put("emei/{id}/default", [\App\Http\Controllers\Api\V1\ImeisController::class, 'c_default']);
+
+        //获取巡查表线路
+        Route::get("line", [\App\Http\Controllers\Api\V1\LineController::class, 'list']);
+        //check修改
+        Route::put("check/{check}", [\App\Http\Controllers\Api\V1\LineController::class, 'update']);
+        //单个check_node 详情
+        Route::get("check_node/{check_node}", [\App\Http\Controllers\Api\V1\LineController::class, 'node_show']);
+        //单个check_node 修改
+        Route::put("check_node/{check_node}", [\App\Http\Controllers\Api\V1\LineController::class, 'node_update']);
         Route::prefix('problem')->group(function () {
             //提交反馈
             Route::post("/", [\App\Http\Controllers\Api\V1\ProblemController::class, 'create']);

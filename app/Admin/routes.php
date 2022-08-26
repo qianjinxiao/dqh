@@ -47,6 +47,8 @@ Route::group([
         $router->get('/', [\App\Admin\Controllers\River\RiverController::class, "index"]);//河道
 
     });
+    $router->resource('/region', "RegionController");//区域
+    $router->resource('/line', "LineController");//线路
     $router->resource('/employees', "UserController");//用户
     $router->resource('/employees_imei', "UserImeiController");//用户设备
     $router->resource('/project_user', "ProjectUserController");//关联工作岗位人员

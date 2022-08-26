@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('refresh_mds')->everyFiveMinutes();
+        $schedule->command('refresh_mds')->everyFiveMinutes();
+        $schedule->command('end_clock')->dailyAt("00:00");
     }
 
     /**
