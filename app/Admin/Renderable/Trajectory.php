@@ -2,8 +2,10 @@
 
 namespace App\Admin\Renderable;
 
+use App\Models\Inspect\InspectClockData;
 use App\Models\Inspect\InspectLog;
 use App\Models\User;
+use App\Models\UserImei;
 use Dcat\Admin\Actions\Response;
 use Dcat\Admin\Admin;
 use Dcat\Admin\Support\LazyRenderable;
@@ -23,7 +25,9 @@ class Trajectory extends LazyRenderable
         if($type=="GPS"){
             $macid=$this->payload['macid'];
             $user=User::query()->find($this->user_id);
-            $a=\App\Services\UserImeiService::getInstance()->routerPass($macid,$user->mds);
+            $data=InspectClockData::query()->find($id);
+            $ui=UserImei::query()->where(['macid'=>$data->macid,'user_id'=>$user->id])->first();
+            $a=\App\Services\UserImeiService::getInstance()->routerPass($macid,$ui->mds);
             return view("trajectory_url",['url'=>$a]);
         }else{
             $adds=InspectLog::query()->where("inspect_data_id",$id)->get(DB::raw("lat,lon"))->toArray();

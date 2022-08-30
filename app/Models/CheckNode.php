@@ -20,6 +20,9 @@ class CheckNode extends Model
     public function line(){
         return $this->belongsTo(Line::class,'line_id');
     }
+    public function region(){
+        return $this->belongsTo(Line::class,'region_id');
+    }
     public function setImagesAttribute($value){
         $this->attributes['images']=json_encode($value);
     }

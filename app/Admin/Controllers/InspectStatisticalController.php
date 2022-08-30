@@ -50,18 +50,17 @@ class InspectStatisticalController extends BaseAdminController
             $grid->column('startClock.address', '巡查开始地点');
             $grid->column('endClock.address', '巡查结束地点');
             $grid->column('status', '上报状态')->using(SmallReservoir::$reportMap);
-            $grid->column('log','查看')->expand(function () {
+//            $grid->column('log','查看')->expand(function () {
                 // 返回打卡详情
                 // 这里返回 content 字段内容，并用 Card 包裹起来
 //                $card = new Card(null, $this->content);
 //
 //                return "<div style='padding:10px 10px 0'>$card</div>";
-            });
+//            });
             $grid->disableViewButton();
             $grid->disableEditButton();
             $grid->disableDeleteButton();
             $grid->disableCreateButton();
-
         });
     }
     /**

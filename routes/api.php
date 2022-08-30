@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Route;
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+|  Here is where you can register API routes for your application. These
+|  routes are loaded by the RouteServiceProvider within a group which
+|  is assigned the "api" middleware group. Enjoy building your API!
 |
 */
 
@@ -25,11 +25,9 @@ Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
     Route::get("inspect/project_enum", [\App\Http\Controllers\Api\V1\InspectController::class, 'project_enum']);
     //根据点位获取列表
     Route::get("inspect/project/{type}/list", [\App\Http\Controllers\Api\V1\InspectController::class, 'project_list']);
-
     Route::middleware('auth:api')->group(function () {
         //我的信息
         Route::get("mine", [\App\Http\Controllers\Api\V1\UserController::class, 'mine']);
-
         // 上传图片
         Route::post('images', [ImagesController::class, 'store'])
             ->name('images.store');
@@ -39,20 +37,16 @@ Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
         //打卡每月汇总
         Route::get("inspect/count", [\App\Http\Controllers\Api\V1\InspectController::class, 'count']);
         Route::get("inspect/count_by_day", [\App\Http\Controllers\Api\V1\InspectController::class, 'count_by_day']);
-
         //查看最后次打卡轨迹
         Route::get("inspect/clock", [\App\Http\Controllers\Api\V1\InspectController::class, 'show']);
         //绑定设备
         Route::post("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'bind']);
-
         //删除设备
         Route::delete("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'un_bind']);
-
         //我的设备列表
         Route::get("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'list']);
         //默认设备
         Route::put("emei/{id}/default", [\App\Http\Controllers\Api\V1\ImeisController::class, 'c_default']);
-
         //获取巡查表线路
         Route::get("line", [\App\Http\Controllers\Api\V1\LineController::class, 'list']);
         //check修改
@@ -68,7 +62,6 @@ Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
             Route::get("/list", [\App\Http\Controllers\Api\V1\ProblemController::class, 'list']);
             //反馈详情
             Route::get("/{problem}", [\App\Http\Controllers\Api\V1\ProblemController::class, 'show']);
-
         });
     });
 });

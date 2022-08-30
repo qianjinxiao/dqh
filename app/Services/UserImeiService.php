@@ -162,6 +162,7 @@ class UserImeiService extends BaseService
             'mds' => $userImei->mds,
         ]));
         $data = json_decode($res->body(), 1);
+        dd( $userImei->mds,$data);
         if ($data['success'] != 'true') {
             $this->throwBusinessException([$data['errorCode'], $data['errorDescribe']]);
         }
@@ -226,13 +227,14 @@ class UserImeiService extends BaseService
         $data = json_decode($res->body(), 1);
         if ($data['success'] == 'true') {
             UserImei::query()->where(['user_id'=>$user->id])->update(['default'=>0]);
-            UserImei::query()->create([
+            UserImei::query()->updateOrCreate([
                 'user_id'=>$user->id,
                 'macid'=>$macid,
                 'mds'=>$data['data']['mds'],
                 'name'=>$fishing_name,
                 'default'=>1
-            ]);
+            ],['user_id'=>$user->id,
+                'macid'=>$macid]);
 
         }else{
             $this->throwBusinessException([$data['errorCode'], $data['errorDescribe']]);

@@ -20,6 +20,7 @@ namespace App\Factory;
 
 use App\Enum\ProjectEnum;
 use App\Models\DrinkingWater\DrinkingWater;
+use App\Models\Farmland\Farmland;
 use App\Models\Pool\Pool;
 use App\Models\ProjectInterface;
 use App\Models\River\River;
@@ -42,6 +43,9 @@ class ProjectFactory
                 break;
             case ProjectEnum::DRINKING_WATER://山塘
                 $project= new DrinkingWater();
+                break;
+            case ProjectEnum::FARMLAND://田地
+                $project= new Farmland();
                 break;
         }
         return $project;

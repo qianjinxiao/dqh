@@ -27,12 +27,14 @@ class ProjectEnum
     const RIVER = "river";
     const POOL = "pool";
     const DRINKING_WATER = "drinking_water";
+    const FARMLAND = "farmland";
 
     public static $allType = [
         self::SMALL_RESERVOIR,
         self::RIVER,
         self::POOL,
         self::DRINKING_WATER,
+        self::FARMLAND,
     ];
     public static $project_list = [
         [
@@ -50,6 +52,10 @@ class ProjectEnum
         [
             'type' => self::DRINKING_WATER,
             'name' => '农村饮用水'
+        ],
+        [
+            'type' => self::FARMLAND,
+            'name' => '田地'
         ]
 
     ];

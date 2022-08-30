@@ -4,6 +4,7 @@ namespace App\Admin\Controllers\River;
 
 use App\Admin\Actions\Traits\TabBase;
 use App\Admin\Interfaces\TabInterface;
+use App\Admin\Renderable\InspectTable;
 use App\Admin\Renderable\Trajectory;
 use App\Enum\ProjectEnum;
 use App\Models\Inspect\InspectClockData;
@@ -40,17 +41,20 @@ class RiverController extends AdminController implements TabInterface
 
         return Grid::make(InspectClockData::with(['user','startClock','endClock'])->orderBy("id",'desc'), function (Grid $grid) use ($item) {
             $grid->model()->where("project_id", $item->id)->where("project_type",get_class($item));
+            $grid->column('id');
             $grid->column('user.name', '清洁人员');
             $grid->column('startClock.time', '清洁时间');
             $grid->column('startClock.address', '清洁起点');
             $grid->column('endClock.address', '清洁终点');
             $grid->column('status', '上报状态')->using(River::$reportMap);
-            $grid->actions(function (Grid\Displayers\Actions $action){
-                $action-> append( Modal::make()
+            $grid->actions(function (Grid\Displayers\Actions $action) {
+                $action->append(Modal::make()
                     ->lg()
                     ->title($this->title)
-                    ->body(Trajectory::make()->payload(['id'=>$this->id,'type'=>'GPS','macid'=>$this->macid,'user_id'=>$this->user_id]))
-                    ->button("轨迹"));
+                    ->body(Trajectory::make()->payload(['id' => $this->id, 'type' => 'GPS', 'macid' => $this->macid, 'user_id' => $this->user_id]))
+                    ->button("<span class='btn btn-outline-success btn-sm'>轨迹</span>&nbsp;"));
+                $id = $this->id;
+                $action->append("<a href='/admin/check_nodes?id=$id' class='btn btn-outline-cyan btn-sm'>巡查表</a>");
             });
             $grid->disableViewButton();
             $grid->disableEditButton();

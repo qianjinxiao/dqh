@@ -55,5 +55,8 @@ Route::group([
     $router->get('/tab_select', [CommonController::class, "tab_select"]);//选项卡切换保存记录
     $router->post('/inspectStatistical', [InspectStatisticalController::class, "statistical"]);//巡查打卡
 
+    $router->resource('/farmland_info', FarmlandInfoController::class);//田地基本信息
+    $router->resource('/check_nodes', CheckNodesController::class);//巡查表
+
 
 });
