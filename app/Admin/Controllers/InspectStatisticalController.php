@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 
+use App\Admin\Renderable\Trajectory;
 use App\Models\Inspect\InspectClock;
 use App\Models\Inspect\InspectClockData;
 use App\Models\Inspect\InspectStatistical;
@@ -11,6 +12,7 @@ use App\Services\InspectStatisticalService;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Http\JsonResponse;
+use Dcat\Admin\Widgets\Modal;
 use Illuminate\Http\Request;
 
 class InspectStatisticalController extends BaseAdminController
@@ -57,6 +59,15 @@ class InspectStatisticalController extends BaseAdminController
 //
 //                return "<div style='padding:10px 10px 0'>$card</div>";
 //            });
+            $grid->actions(function (Grid\Displayers\Actions $action) {
+                $action->append(Modal::make()
+                    ->lg()
+                    ->title($this->title)
+                    ->body(Trajectory::make()->payload(['id' => $this->id, 'type' => 'weixin', 'macid' => $this->macid, 'user_id' => $this->user_id]))
+                    ->button("<span class='btn btn-outline-success btn-sm'>轨迹</span>&nbsp;"));
+                $id = $this->id;
+                $action->append("<a href='/admin/check_nodes?id=$id' class='btn btn-outline-cyan btn-sm'>巡查表</a>");
+            });
             $grid->disableViewButton();
             $grid->disableEditButton();
             $grid->disableDeleteButton();
