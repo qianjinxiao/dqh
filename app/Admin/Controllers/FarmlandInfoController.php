@@ -42,6 +42,9 @@ class FarmlandInfoController extends AdminController
                 $filter->equal('id');
 
             });
+            $grid->disableCreateButton();
+            $grid->disableActions();
+            $grid->disableRowSelector();
         });
     }
 

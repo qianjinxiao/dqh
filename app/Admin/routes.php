@@ -57,6 +57,7 @@ Route::group([
 
     $router->resource('/farmland_info', FarmlandInfoController::class);//田地基本信息
     $router->resource('/check_nodes', CheckNodesController::class);//巡查表
+    $router->resource('/rectification', RectificationController::class);//整改情况
 
 
 });

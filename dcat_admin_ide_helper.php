@@ -75,6 +75,13 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection payload
      * @property Grid\Column|Collection queue
      * @property Grid\Column|Collection uuid
+     * @property Grid\Column|Collection mj1
+     * @property Grid\Column|Collection mj2
+     * @property Grid\Column|Collection mj3
+     * @property Grid\Column|Collection mj4
+     * @property Grid\Column|Collection mj5
+     * @property Grid\Column|Collection quo
+     * @property Grid\Column|Collection villagers
      * @property Grid\Column|Collection path
      * @property Grid\Column|Collection device_info
      * @property Grid\Column|Collection report_status
@@ -219,6 +226,13 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection payload(string $label = null)
      * @method Grid\Column|Collection queue(string $label = null)
      * @method Grid\Column|Collection uuid(string $label = null)
+     * @method Grid\Column|Collection mj1(string $label = null)
+     * @method Grid\Column|Collection mj2(string $label = null)
+     * @method Grid\Column|Collection mj3(string $label = null)
+     * @method Grid\Column|Collection mj4(string $label = null)
+     * @method Grid\Column|Collection mj5(string $label = null)
+     * @method Grid\Column|Collection quo(string $label = null)
+     * @method Grid\Column|Collection villagers(string $label = null)
      * @method Grid\Column|Collection path(string $label = null)
      * @method Grid\Column|Collection device_info(string $label = null)
      * @method Grid\Column|Collection report_status(string $label = null)
@@ -368,6 +382,13 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection payload
      * @property Show\Field|Collection queue
      * @property Show\Field|Collection uuid
+     * @property Show\Field|Collection mj1
+     * @property Show\Field|Collection mj2
+     * @property Show\Field|Collection mj3
+     * @property Show\Field|Collection mj4
+     * @property Show\Field|Collection mj5
+     * @property Show\Field|Collection quo
+     * @property Show\Field|Collection villagers
      * @property Show\Field|Collection path
      * @property Show\Field|Collection device_info
      * @property Show\Field|Collection report_status
@@ -512,6 +533,13 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection payload(string $label = null)
      * @method Show\Field|Collection queue(string $label = null)
      * @method Show\Field|Collection uuid(string $label = null)
+     * @method Show\Field|Collection mj1(string $label = null)
+     * @method Show\Field|Collection mj2(string $label = null)
+     * @method Show\Field|Collection mj3(string $label = null)
+     * @method Show\Field|Collection mj4(string $label = null)
+     * @method Show\Field|Collection mj5(string $label = null)
+     * @method Show\Field|Collection quo(string $label = null)
+     * @method Show\Field|Collection villagers(string $label = null)
      * @method Show\Field|Collection path(string $label = null)
      * @method Show\Field|Collection device_info(string $label = null)
      * @method Show\Field|Collection report_status(string $label = null)
