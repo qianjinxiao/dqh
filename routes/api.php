@@ -39,6 +39,11 @@ Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
         Route::get("inspect/count_by_day", [\App\Http\Controllers\Api\V1\InspectController::class, 'count_by_day']);
         //查看最后次打卡轨迹
         Route::get("inspect/clock", [\App\Http\Controllers\Api\V1\InspectController::class, 'show']);
+        //选择设备列表
+        Route::get("emei/list", [\App\Http\Controllers\Api\V1\ImeisController::class, 'select']);
+        //选择设备绑定
+
+        Route::post("emei/select-bind", [\App\Http\Controllers\Api\V1\ImeisController::class, 'select_bind']);
         //绑定设备
         Route::post("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'bind']);
         //删除设备

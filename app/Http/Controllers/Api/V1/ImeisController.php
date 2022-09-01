@@ -29,9 +29,23 @@ use App\Services\InspectStatisticalService;
 use App\Services\UserImeiService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ImeisController extends BaseController
 {
+    public function select(Request $request){
+        return $this->successPaginate(DB::table('imeis')->get());
+    }
+    public function select_bind(Request $request){
+        $user = $request->user();
+        $imei= DB::table('imeis')->find($request->id);
+        if(UserImei::query()->where(['user_id'=>$user->id,'macid'=>$imei->macid])->exists()){
+            return $this->fail(ResponseEnum::DEVICE_ACCOUNT_REGISTERED, $data = null, $error=null);
+        }
+        UserImeiService::getInstance()->loginDevice($user, $imei->macid, $imei->name);
+        return $this->success();
+    }
+
     public function list(Request $request)
     {
         $user = $request->user();
