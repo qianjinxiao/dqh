@@ -96,23 +96,23 @@ class UserImeiService extends BaseService
             'mds' => $user->mds,
             'nickname' => $fishing_name
         ]));
-            $data = json_decode($res->body(), 1);
+        $data = json_decode($res->body(), 1);
 
-            if ($data['success'] == 'true') {
-                if (UserImei::query()->where(['user_id' => $user->id, 'default' => 1])->exists()) {
-                    $default = 0;
-                } else {
-                    $default = 1;
-                }
-                UserImei::query()->create([
-                    'macid' => $macid,
-                    'user_id' => $user->id,
-                    'name' => $fishing_name,
-                    'default' => $default
-                ]);
+        if ($data['success'] == 'true') {
+            if (UserImei::query()->where(['user_id' => $user->id, 'default' => 1])->exists()) {
+                $default = 0;
             } else {
-                $this->throwBusinessException([$data['errorCode'], $data['errorDescribe']]);
+                $default = 1;
             }
+            UserImei::query()->create([
+                'macid' => $macid,
+                'user_id' => $user->id,
+                'name' => $fishing_name,
+                'default' => $default
+            ]);
+        } else {
+            $this->throwBusinessException([$data['errorCode'], $data['errorDescribe']]);
+        }
 
     }
 
@@ -126,15 +126,15 @@ class UserImeiService extends BaseService
             'macid' => $macid,
             'mds' => $user->mds,
         ]));
-            $data = json_decode($res->body(), 1);
-            if ($data['success'] == 'true') {
-                UserImei::query()->where([
-                    'macid' => $macid,
-                    'user_id' => $user->id,
-                ])->delete();
-            } else {
-                $this->throwBusinessException([$data['errorCode'], $data['errorDescribe']]);
-            }
+        $data = json_decode($res->body(), 1);
+        if ($data['success'] == 'true') {
+            UserImei::query()->where([
+                'macid' => $macid,
+                'user_id' => $user->id,
+            ])->delete();
+        } else {
+            $this->throwBusinessException([$data['errorCode'], $data['errorDescribe']]);
+        }
 
 
     }
@@ -152,6 +152,7 @@ class UserImeiService extends BaseService
         ]);
         return $this->url . '?' . $param;
     }
+
     //刷新mds
     public function refresh_mds(UserImei $userImei)
     {
@@ -162,12 +163,13 @@ class UserImeiService extends BaseService
             'mds' => $userImei->mds,
         ]));
         $data = json_decode($res->body(), 1);
-        dd( $userImei->mds,$data);
+        dd($userImei->mds, $data);
         if ($data['success'] != 'true') {
             $this->throwBusinessException([$data['errorCode'], $data['errorDescribe']]);
         }
         return $data['data'];
     }
+
     //获取当前定位
     public function location(string $mds, string $macid)
     {
@@ -180,7 +182,7 @@ class UserImeiService extends BaseService
         ]));
         $data = json_decode($res->body(), 1);
         if ($data['success'] != 'true') {
-           $this->throwBusinessException([$data['errorCode'], $data['errorDescribe']]);
+            $this->throwBusinessException([$data['errorCode'], $data['errorDescribe']]);
         }
         return $data['data'];
     }
@@ -215,28 +217,33 @@ class UserImeiService extends BaseService
             $this->throwBusinessException(ResponseEnum::SYSTEM_ERROR);
         }
     }
-    public function loginDevice($user, $macid, $fishing_name){
+
+    public function loginDevice($user, $macid, $fishing_name)
+    {
 
         $this->url = "http://openapi.18gps.net/GetDataService.aspx";
         $res = $this->get(http_build_query([
             'method' => 'SignApi',
             'w' => 'DeviceLogin',
             'macid' => $macid,
-            'password'=>'123456'
+            'password' => '123456'
         ]));
         $data = json_decode($res->body(), 1);
         if ($data['success'] == 'true') {
-            UserImei::query()->where(['user_id'=>$user->id])->update(['default'=>0]);
+            UserImei::query()->where(['user_id' => $user->id])->update(['default' => 0]);
             UserImei::query()->updateOrCreate([
-                'user_id'=>$user->id,
-                'macid'=>$macid,
-                'mds'=>$data['data']['mds'],
-                'name'=>$fishing_name,
-                'default'=>1
-            ],['user_id'=>$user->id,
-                'macid'=>$macid]);
+                'user_id' => $user->id,
+                'macid' => $macid
+            ],[
+                'user_id' => $user->id,
+                'macid' => $macid,
+                'mds' => $data['data']['mds'],
+                'name' => $fishing_name,
+                'default' => 1
+            ]
+            );
 
-        }else{
+        } else {
             $this->throwBusinessException([$data['errorCode'], $data['errorDescribe']]);
         }
         return $data['data'];
