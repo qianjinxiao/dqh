@@ -20,6 +20,7 @@ namespace App\Services;
 
 use App\Exceptions\BusinessException;
 use App\Helpers\ResponseEnum;
+use App\Models\Imei;
 use App\Models\User;
 use App\Models\UserImei;
 use Illuminate\Support\Facades\Http;
@@ -154,16 +155,15 @@ class UserImeiService extends BaseService
     }
 
     //刷新mds
-    public function refresh_mds(UserImei $userImei)
+    public function refresh_mds(Imei $imei)
     {
         $this->url = "http://openapi.18gps.net/GetDataService.aspx";
         $res = $this->get(http_build_query([
             'method' => 'QueryApi',
             'w' => 'RefreshMds',
-            'mds' => $userImei->mds,
+            'mds' => $imei->mds,
         ]));
         $data = json_decode($res->body(), 1);
-        dd($userImei->mds, $data);
         if ($data['success'] != 'true') {
             $this->throwBusinessException([$data['errorCode'], $data['errorDescribe']]);
         }
@@ -218,31 +218,20 @@ class UserImeiService extends BaseService
         }
     }
 
-    public function loginDevice($user, $macid, $fishing_name)
+    public function loginDevice($imei)
     {
 
         $this->url = "http://openapi.18gps.net/GetDataService.aspx";
         $res = $this->get(http_build_query([
             'method' => 'SignApi',
             'w' => 'DeviceLogin',
-            'macid' => $macid,
+            'macid' => $imei->macid,
             'password' => '123456'
         ]));
         $data = json_decode($res->body(), 1);
         if ($data['success'] == 'true') {
-            UserImei::query()->where(['user_id' => $user->id])->update(['default' => 0]);
-            UserImei::query()->updateOrCreate([
-                'user_id' => $user->id,
-                'macid' => $macid
-            ],[
-                'user_id' => $user->id,
-                'macid' => $macid,
-                'mds' => $data['data']['mds'],
-                'name' => $fishing_name,
-                'default' => 1
-            ]
-            );
-
+            $imei->mds=$data['data']['mds'];
+            $imei->save();
         } else {
             $this->throwBusinessException([$data['errorCode'], $data['errorDescribe']]);
         }

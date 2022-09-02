@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Imei;
 use App\Models\User;
 use App\Models\UserImei;
 use App\Services\UserImeiService;
@@ -41,7 +42,7 @@ class RefreshMds extends Command
      */
     public function handle()
     {
-        UserImei::query()->whereNotNull("mds")->get()->each(function ($item){
+        Imei::query()->whereNotNull("mds")->get()->each(function ($item){
             UserImeiService::getInstance()->refresh_mds($item);
         });
     }

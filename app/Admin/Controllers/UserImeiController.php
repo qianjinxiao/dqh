@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Imei;
 use App\Models\User;
 use App\Models\UserImei;
 use App\Services\UserImeiService;
@@ -21,22 +22,12 @@ class UserImeiController extends BaseAdminController
      */
     protected function grid()
     {
-        return Grid::make(new UserImei(), function (Grid $grid) {
-            if(request()->exists('user_id')){
-                $grid->model()->where('user_id',request('user_id'));
-            }
-            $grid->column('id')->sortable();
+        return Grid::make(new Imei(), function (Grid $grid) {
             $grid->column('name','名字');
             $grid->column('macid','设备号');
-            $grid->column('created_at');
-            $grid->column('updated_at')->sortable();
-            $grid->disableViewButton();
-            $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
-                $filter->equal('user_id');
-            });
-            $grid->disableEditButton();
+            $grid->column('mds','密钥');
             $grid->showQuickEditButton();
+            $grid->disableEditButton();
             $grid->enableDialogCreate();
         });
     }
@@ -50,20 +41,11 @@ class UserImeiController extends BaseAdminController
      */
     protected function form()
     {
-        return Form::make( UserImei::with(['user']), function (Form $form) {
+        return Form::make( Imei::with([]), function (Form $form) {
             $form->display('id');
-            $form->select('user_id','选择员工')->options(User::query()->pluck('name','id'));
-            $form->text('name','姓名');
+            $form->text('name','渔船');
             $form->text('macid','设备号');
-            $form->hidden('default')->default(0);
 
-            $form->display('created_at');
-            $form->display('updated_at');
-            $form->saved(function (Form $form){
-                $model=UserImei::query()->find($form->getKey());
-                $user=User::query()->find($model->user_id);
-                UserImeiService::getInstance()->loginDevice($user, $model->macid, $model->name);
-            });
         });
     }
 }

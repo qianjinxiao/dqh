@@ -2,6 +2,7 @@
 
 namespace App\Admin\Renderable;
 
+use App\Models\Imei;
 use App\Models\Inspect\InspectClockData;
 use App\Models\Inspect\InspectLog;
 use App\Models\User;
@@ -26,7 +27,7 @@ class Trajectory extends LazyRenderable
             $macid=$this->payload['macid'];
             $user=User::query()->find($this->user_id);
             $data=InspectClockData::query()->find($id);
-            $ui=UserImei::query()->where(['macid'=>$data->macid,'user_id'=>$user->id])->first();
+            $ui=Imei::query()->where(['macid'=>$data->macid])->first();
             $a=\App\Services\UserImeiService::getInstance()->routerPass($macid,$ui->mds);
             return view("trajectory_url",['url'=>$a]);
         }else{

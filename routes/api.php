@@ -53,17 +53,17 @@ Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
         //选择设备列表
         Route::get("emei/list", [\App\Http\Controllers\Api\V1\ImeisController::class, 'select']);
         //我的默认设备
-        Route::get("emei_default", [\App\Http\Controllers\Api\V1\ImeisController::class, 'emei_default']);
+//        Route::get("emei_default", [\App\Http\Controllers\Api\V1\ImeisController::class, 'emei_default']);
         //选择设备绑定
         Route::post("emei/select-bind", [\App\Http\Controllers\Api\V1\ImeisController::class, 'select_bind']);
-        //绑定设备
-        Route::post("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'bind']);
-        //删除设备
-        Route::delete("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'un_bind']);
-        //我的设备列表
-        Route::get("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'list']);
-        //默认设备
-        Route::put("emei/{id}/default", [\App\Http\Controllers\Api\V1\ImeisController::class, 'c_default']);
+//        //绑定设备
+//        Route::post("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'bind']);
+//        //删除设备
+//        Route::delete("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'un_bind']);
+//        //我的设备列表
+//        Route::get("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'list']);
+//        //默认设备
+//        Route::put("emei/{id}/default", [\App\Http\Controllers\Api\V1\ImeisController::class, 'c_default']);
         //获取巡查表线路
         Route::get("line", [\App\Http\Controllers\Api\V1\LineController::class, 'list']);
         //check修改

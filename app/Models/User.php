@@ -53,7 +53,7 @@ class User extends Authenticatable implements  JWTSubject
         return $this->hasMany(UserImei::class,'user_id');
     }
     public function imei(){
-        return $this->hasOne(UserImei::class,'user_id');
+        return $this->hasOne(Imei::class,'imei_id');
     }
     public function getMds(){
         return 'mds';
