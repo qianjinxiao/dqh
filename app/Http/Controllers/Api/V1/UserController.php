@@ -53,7 +53,9 @@ class UserController extends BaseController
     public function mine(Request $request){
         $user=$request->user();
         $u=User::query()->with('project')->find($user->id);
-        $u->project->project_type=ProjectEnum::$allTypeMap2[$u->project->project_type];
+        if(isset($u->project)){
+            $u->project->project_type=ProjectEnum::$allTypeMap2[$u->project->project_type];
+        }
         return $this->success($u);
     }
     public function socialStore($type, SocialAuthorizationRequest $request)
