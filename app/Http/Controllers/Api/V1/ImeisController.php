@@ -36,7 +36,7 @@ class ImeisController extends BaseController
     public function select(Request $request){
         $user=$request->user();
         $list=DB::table('imeis')->get()->each(function ($item)use ($user){
-            $item->is_bind=UserImei::query()->where(['macid'=>$item->macid,'user_id'=>$user->id])->exists();
+            $item->is_bind=($item->macid == $user->macid)?true:false;
             return $item;
         });
         return $this->successPaginate($list);
@@ -48,13 +48,16 @@ class ImeisController extends BaseController
             return $this->fail(ResponseEnum::DEVICE_ACCOUNT_REGISTERED, $data = null, $error=null);
         }
         UserImeiService::getInstance()->loginDevice($user, $imei->macid, $imei->name);
+        $user->macid=$imei->macid;
+        $user->fishing_name=$imei->name;
+        $user->save();
         return $this->success();
     }
     public function emei_default(Request $request){
         $user = $request->user();
-        $ui=UserImei::query()->where(['user_id'=>$user->id,'default'=>1])->first();
-        $ui->name=DB::table('imeis')->where(['macid'=>$ui->macid])->value('name');
-        return $this->success($ui);
+//        $ui=UserImei::query()->where(['user_id'=>$user->id,'default'=>1])->first();
+//        $ui->name=DB::table('imeis')->where(['macid'=>$ui->macid])->value('name');
+        return $this->success($user);
     }
     public function list(Request $request)
     {
