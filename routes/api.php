@@ -50,8 +50,9 @@ Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
         Route::get("inspect/clock", [\App\Http\Controllers\Api\V1\InspectController::class, 'show']);
         //选择设备列表
         Route::get("emei/list", [\App\Http\Controllers\Api\V1\ImeisController::class, 'select']);
+        //我的默认设备
+        Route::get("emei_default", [\App\Http\Controllers\Api\V1\ImeisController::class, 'emei_default']);
         //选择设备绑定
-
         Route::post("emei/select-bind", [\App\Http\Controllers\Api\V1\ImeisController::class, 'select_bind']);
         //绑定设备
         Route::post("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'bind']);

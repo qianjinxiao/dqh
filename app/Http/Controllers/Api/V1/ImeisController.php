@@ -34,7 +34,12 @@ use Illuminate\Support\Facades\DB;
 class ImeisController extends BaseController
 {
     public function select(Request $request){
-        return $this->successPaginate(DB::table('imeis')->get());
+        $user=$request->user();
+        $list=DB::table('imeis')->get()->each(function ($item)use ($user){
+            $item->is_bind=UserImei::query()->where(['macid'=>$item->macid,'user_id'=>$user->id])->exists();
+            return $item;
+        });
+        return $this->successPaginate($list);
     }
     public function select_bind(Request $request){
         $user = $request->user();
@@ -45,7 +50,12 @@ class ImeisController extends BaseController
         UserImeiService::getInstance()->loginDevice($user, $imei->macid, $imei->name);
         return $this->success();
     }
-
+    public function emei_default(Request $request){
+        $user = $request->user();
+        $ui=UserImei::query()->where(['user_id'=>$user->id,'default'=>1])->first();
+        $ui->name=DB::table('imeis')->where(['macid'=>$ui->macid])->value('name');
+        return $this->success($ui);
+    }
     public function list(Request $request)
     {
         $user = $request->user();
