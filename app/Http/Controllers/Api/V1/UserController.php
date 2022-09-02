@@ -20,19 +20,49 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Enum\ProjectEnum;
 use App\Exceptions\BusinessException;
+use App\Factory\ProjectFactory;
 use App\Helpers\ApiResponse;
 use App\Helpers\ResponseEnum;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Api\SocialAuthorizationRequest;
 use App\Http\Requests\UserLoginRequest;
+use App\Models\Inspect\InspectClockData;
 use App\Models\SmallReservoirs\SmallReservoir;
 use App\Models\User;
 use App\Services\InspectStatisticalService;
 use App\Services\UserService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends BaseController
 {
+    public function home(Request $request){
+        $date=$request->input('date','');
+        if($date==''){
+            $m=Carbon::now();
+            $m1=Carbon::now();
+        }else{
+            $m=Carbon::parse($date);
+            $m1=Carbon::parse($date);
+        }
+        $start=$m->startOfMonth();
+        $end=$m1->addMonth()->startOfMonth();
+       $data= InspectClockData::query()->select(DB::raw("CONCAT(YEAR(created_at),'-',MONTH(created_at)) as month,count(id) as day,project_type"))->where(
+           "created_at",">=",$start
+       )->where(
+           "created_at","<",$end
+       )->groupBy("project_type")->groupBy("month")->get()->each(function ($item)use ($m){
+           $item->name=ProjectEnum::$allTypeMap[$item->project_type];
+           $item->month_day=$m->daysInMonth;
+           return $item;
+       });
+        $data=$data->toArray();
+        foreach ($data as $k=>$v){
+//            $data[$k]['']
+        }
+        return $this->success($m);
+    }
     public function login(UserLoginRequest $request)
     {
         $username = $request->username;
@@ -54,7 +84,9 @@ class UserController extends BaseController
         $user=$request->user();
         $u=User::query()->with('project')->find($user->id);
         if(isset($u->project)){
+            $u->project->project_type_name=ProjectEnum::$allTypeMap[$u->project->project_type];
             $u->project->project_type=ProjectEnum::$allTypeMap2[$u->project->project_type];
+            $u->project->project_name=ProjectFactory::CreateProject($u->project->project_type)->where('id', $u->project->project_id)->value('name');
         }
         return $this->success($u);
     }

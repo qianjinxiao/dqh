@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get("/home", [\App\Http\Controllers\Api\V1\UserController::class, 'home']);
+
 Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
     //用户登陆
     Route::post("user/login", [\App\Http\Controllers\Api\V1\UserController::class, 'login']);
