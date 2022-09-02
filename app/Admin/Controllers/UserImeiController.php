@@ -45,7 +45,10 @@ class UserImeiController extends BaseAdminController
             $form->display('id');
             $form->text('name','渔船');
             $form->text('macid','设备号');
-
+            $form->saved(function (Form $form){
+                $model = Imei::query()->find($form->getKey());
+                UserImeiService::getInstance()->loginDevice($model);
+            });
         });
     }
 }
