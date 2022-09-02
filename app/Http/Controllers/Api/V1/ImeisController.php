@@ -34,9 +34,8 @@ use Illuminate\Support\Facades\DB;
 class ImeisController extends BaseController
 {
     public function select(Request $request){
-        $user=$request->user();
-        $list=DB::table('imeis')->get()->each(function ($item)use ($user){
-            $item->is_bind=($item->macid == $user->macid)?true:false;
+        $list=DB::table('imeis')->get()->each(function ($item){
+            $item->is_bind=User::query()->where('imei_id',$item->id)->exists();
             return $item;
         });
         return $this->successPaginate($list);
