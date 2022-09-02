@@ -58,4 +58,7 @@ class User extends Authenticatable implements  JWTSubject
     public function getMds(){
         return 'mds';
     }
+    public function project(){
+        return $this->hasOne(ProjectUser::class,'user_id');
+    }
 }

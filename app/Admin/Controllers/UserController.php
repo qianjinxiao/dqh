@@ -2,6 +2,8 @@
 
 namespace App\Admin\Controllers;
 
+use App\Enum\ProjectEnum;
+use App\Factory\ProjectFactory;
 use App\Models\User;
 use App\Services\UserImeiService;
 use Dcat\Admin\Actions\Action;
@@ -9,6 +11,8 @@ use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
 use Dcat\Admin\Http\Controllers\AdminController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends AdminController
@@ -72,7 +76,7 @@ class UserController extends AdminController
      */
     protected function form()
     {
-        return Form::make( User::with("imei"), function (Form $form) {
+        return Form::make( User::with(["imei"])->with("project"), function (Form $form) {
             $form->display('id');
             $form->text('name','姓名');
             $form->image('avatar','头像')->saveFullUrl()->autoUpload()->autoSave()->uniqueName();
@@ -83,10 +87,13 @@ class UserController extends AdminController
             $form->text('macid','设备id');
             $form->text('username');
             $form->password('password');
-
+            $form->select("project.project_type","选择类型")->load('project.project_id', '/api/get_project_id')->options(ProjectEnum::$allTypeMap)->help("用于绑定默认打卡地址");
+            $form->select("project.project_id","选择区域");
+            $form->hidden("project.job");
             $form->display('created_at');
             $form->display('updated_at');
             $form->saving(function (Form $form){
+                $form->input('project.job',$form->job_title);
                 $form->password=Hash::make($form->password);
             });
             $form->saved(function (Form $form){
@@ -95,5 +102,10 @@ class UserController extends AdminController
                }
             });
         });
+    }
+    public function get_project_id(Request $request)
+    {
+        $type = $request->get('q');
+        return ProjectFactory::CreateProjectForClass($type)->get(['id', DB::raw('name as text')]);
     }
 }

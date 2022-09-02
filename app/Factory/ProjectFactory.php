@@ -50,4 +50,27 @@ class ProjectFactory
         }
         return $project;
     }
+    public static function CreateProjectForClass(string $type):ProjectInterface
+    {
+        $project=null;
+        switch ($type){
+            case SmallReservoir::class://小型水库
+                $project= new SmallReservoir();
+                break;
+            case River::class://小型水库
+                $project= new River();
+                break;
+            case Pool::class://山塘
+                $project= new Pool();
+                break;
+            case DrinkingWater::class://山塘
+                $project= new DrinkingWater();
+                break;
+            case Farmland::class://田地
+                $project= new Farmland();
+                break;
+        }
+        return $project;
+    }
+
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\ImagesController;
+use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
     //用户登陆
     Route::post("user/login", [\App\Http\Controllers\Api\V1\UserController::class, 'login']);
+    // 第三方登录
+    Route::post('socials/{social_type}/authorizations', [UserController::class, 'socialStore'])
+        ->where('social_type', 'wechat')
+        ->name('socials.authorizations.store');
     //获取打卡点位
     Route::get("inspect/project_enum", [\App\Http\Controllers\Api\V1\InspectController::class, 'project_enum']);
     //根据点位获取列表
@@ -28,6 +33,10 @@ Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
     Route::middleware('auth:api')->group(function () {
         //我的信息
         Route::get("mine", [\App\Http\Controllers\Api\V1\UserController::class, 'mine']);
+
+        Route::post('socials/{social_type}/bind', [UserController::class, 'bind'])
+            ->where('social_type', 'wechat')
+            ->name('socials.authorizations.bind');
         // 上传图片
         Route::post('images', [ImagesController::class, 'store'])
             ->name('images.store');

@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\InspectClockRequest;
 use App\Models\Inspect\InspectClock;
 use App\Models\Inspect\InspectClockData;
+use App\Models\ProjectUser;
 use App\Models\SmallReservoirs\SmallReservoir;
 use App\Models\User;
 use App\Services\InspectStatisticalService;
@@ -36,7 +37,15 @@ class InspectController extends BaseController
     public function clock(InspectClockRequest $request){
         $user=$request->user();
         $data=$request->only('lat','lon','address','macid');
+
         $model=InspectStatisticalService::getInstance()->clock($user,$request->input('project_type'),$request->project_id,$data);
+        $map= array_flip(ProjectEnum::$allTypeMap2);
+        $type=$map[$request->input('project_type')];
+        ProjectUser::create([
+           'user_id'=>$user->id,
+           'project_id'=>$request->project_id,
+           'project_type'=>$type
+        ]);
         return $this->success($model);
     }
     public function show(Request $request){

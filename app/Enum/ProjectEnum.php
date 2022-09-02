@@ -18,6 +18,10 @@
 
 namespace App\Enum;
 
+use App\Models\DrinkingWater\DrinkingWater;
+use App\Models\Farmland\Farmland;
+use App\Models\Pool\Pool;
+use App\Models\River\River;
 use App\Models\SmallReservoirs\SmallReservoir;
 
 class ProjectEnum
@@ -35,6 +39,20 @@ class ProjectEnum
         self::POOL,
         self::DRINKING_WATER,
         self::FARMLAND,
+    ];
+    public static $allTypeMap = [
+        SmallReservoir::class => '小型水库',
+        River::class => '河道',
+        Pool::class => '山塘',
+        DrinkingWater::class => '农村饮用水',
+        Farmland::class => '田地',
+    ];
+    public static $allTypeMap2 = [
+        SmallReservoir::class => self::SMALL_RESERVOIR,
+        River::class => self::RIVER,
+        Pool::class => self::POOL,
+        DrinkingWater::class => self::DRINKING_WATER,
+        Farmland::class => self::FARMLAND,
     ];
     public static $project_list = [
         [
