@@ -87,7 +87,7 @@ class UserController extends AdminController
             $form->text('job_title', '职称');
             $form->hidden('fishing_name', '渔船名字');
             $form->hidden('macid', '设备id');
-            $form->select('imei_id', '选择设备绑定')->options(Imei::query()->pluck('name', 'id'));
+            $form->select('imei_id', '选择设备绑定')->options(Imei::query()->pluck('name', 'id'))->required();
             $form->text('username');
             $form->password('password');
             $form->select("project.project_type", "选择类型")->load('project.project_id', '/api/get_project_id')->options(ProjectEnum::$allTypeMap)->help("用于绑定默认打卡地址");
