@@ -33,6 +33,7 @@ use App\Models\User;
 use App\Services\InspectStatisticalService;
 use App\Services\UserService;
 use Carbon\Carbon;
+use EasyWeChat\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -69,11 +70,11 @@ class UserController extends BaseController
             $farmland->name = ProjectEnum::$allTypeMap[$farmland->project_type];
             $farmland->days = Carbon::now()->startOfQuarter()->diffInDays(Carbon::now()->endOfQuarter());
             $farmland->percent = round($farmland->day / $farmland->days * 100, 2) . '%';
-            $farmland=$farmland->toArray();
+            $farmland = $farmland->toArray();
         } else {
-            $farmland=["month" => Carbon::now()->startOfQuarter()->format("Y-m") . '/' . Carbon::now()->endOfQuarter()->format("Y-m"),
+            $farmland = ["month" => Carbon::now()->startOfQuarter()->format("Y-m") . '/' . Carbon::now()->endOfQuarter()->format("Y-m"),
                 "day" => 0,
-                "project_type" =>Farmland::class,
+                "project_type" => Farmland::class,
                 "name" => ProjectEnum::$allTypeMap[Farmland::class],
                 "days" => Carbon::now()->startOfQuarter()->diffInDays(Carbon::now()->endOfQuarter()),
                 "percent" => '0%',
@@ -101,7 +102,7 @@ class UserController extends BaseController
             }
         }
         $newArr['small_reservoir_and_pool'] = $newArr['small_reservoir'];
-        $newArr['small_reservoir_and_pool']['name']='水库山塘';
+        $newArr['small_reservoir_and_pool']['name'] = '水库山塘';
         $newArr['small_reservoir_and_pool']['day'] += $newArr['pool']['day'];
         $newArr['small_reservoir_and_pool']['percent'] = round($newArr['small_reservoir_and_pool']['day'] / $newArr['small_reservoir_and_pool']['days'] * 100, 2) . '%';
         $newArr['farmland'] = $farmland;
@@ -143,37 +144,22 @@ class UserController extends BaseController
 
     public function socialStore($type, SocialAuthorizationRequest $request)
     {
-        $driver = \Socialite::create($type);
+
+        $code = $request->code;
+        $app = Factory::miniProgram(config('wechat.mini_program.default'));
 
         try {
-            if ($code = $request->code) {
-                $oauthUser = $driver->userFromCode($code);
-            } else {
-                // 微信需要增加 openid
-                if ($type == 'wechat') {
-                    $driver->withOpenid($request->openid);
-                }
-
-                $oauthUser = $driver->userFromToken($request->access_token);
-            }
+            $oauthUser = $app->auth->session($code);
         } catch (\Exception $e) {
             throw new BusinessException(ResponseEnum::WECHAT_UN_GET_USERINFO);
         }
 
-        if (!$oauthUser->getId()) {
+        if (isset($oauthUser['errcode'])) {
             throw new BusinessException(ResponseEnum::WECHAT_UN_GET_USERINFO);
         }
-
         switch ($type) {
             case 'wechat':
-                $unionid = $oauthUser->getRaw()['unionid'] ?? null;
-
-                if ($unionid) {
-                    $user = User::where('weixin_unionid', $unionid)->first();
-                } else {
-                    $user = User::where('weixin_openid', $oauthUser->getId())->first();
-                }
-
+                $user = User::where('weixin_openid', $oauthUser['openid'])->first();
                 // 没有用户，默认创建一个用户
                 if (!$user) {
                     throw new BusinessException(ResponseEnum::WECHAT_UNBIND);
@@ -186,41 +172,26 @@ class UserController extends BaseController
 
     public function bind($type, SocialAuthorizationRequest $request)
     {
-        $driver = \Socialite::create($type);
 
+        $code = $request->code;
+        $app = Factory::miniProgram(config('wechat.mini_program.default'));
         try {
-            if ($code = $request->code) {
-                $oauthUser = $driver->userFromCode($code);
-            } else {
-                // 微信需要增加 openid
-                if ($type == 'wechat') {
-                    $driver->withOpenid($request->openid);
-                }
-                $oauthUser = $driver->userFromToken($request->access_token);
-            }
+            $oauthUser = $app->auth->session($code);
         } catch (\Exception $e) {
             throw new BusinessException(ResponseEnum::WECHAT_UN_GET_USERINFO);
         }
 
-        if (!$oauthUser->getId()) {
+        if (isset($oauthUser['errcode'])) {
             throw new BusinessException(ResponseEnum::WECHAT_UN_GET_USERINFO);
         }
 
         switch ($type) {
             case 'wechat':
-                $unionid = $oauthUser->getRaw()['unionid'] ?? null;
                 $user = $request->user();
-                if ($unionid) {
-                    $user->weixin_unionid = $unionid;
-                    $user->weixin_openid = $oauthUser->getId();
-
-                } else {
-                    $user->weixin_openid = $oauthUser->getId();
-                }
+                $user->weixin_openid =$oauthUser['openid'];
                 $user->save();
                 break;
         }
-
         return $this->success();
     }
 
