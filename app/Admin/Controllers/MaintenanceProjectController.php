@@ -35,8 +35,8 @@ class MaintenanceProjectController extends BaseAdminController
             $grid->column('type','类型')->using(MaintenanceProject::$typeMap);
             $grid->column('begin_at','计划开始时间');
             $grid->column('end_at','计划结束时间');
-            $grid->column('before_image','维修前图片')->image('',200);
-            $grid->column('after_image','维修后图片')->image('',200);
+            $grid->column('before_image','维修前图片')->image('',100);
+            $grid->column('after_image','维修后图片')->image('',100);
             $grid->column('completed_at','实际完成时间');
             $grid->column('file1','合同文件')->modal(function ($modal){
                 $card=Card::make('',view('pdf',['value'=>$this->file]));

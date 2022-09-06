@@ -30,7 +30,7 @@ class UserController extends AdminController
         return Grid::make(new User(), function (Grid $grid) {
             $grid->column('id')->sortable();
             $grid->column('name', '姓名');
-            $grid->column('avatar', '头像')->image();
+            $grid->column('avatar', '头像')->image("",100);
             $grid->column('edu', '学历');
             $grid->column('professional', '专业');
             $grid->column('job_title', '职称');
@@ -89,7 +89,7 @@ class UserController extends AdminController
             $form->hidden('macid', '设备id');
             $form->select('imei_id', '选择设备绑定')->options(Imei::query()->pluck('name', 'id'))->required();
             $form->text('username');
-            $form->password('password');
+            $form->password('password')->value($form->model()->password);
             $form->select("project.project_type", "选择类型")->load('project.project_id', '/api/get_project_id')->options(ProjectEnum::$allTypeMap)->help("用于绑定默认打卡地址");
             $form->select("project.project_id", "选择区域");
             $form->hidden("project.job");
@@ -100,7 +100,9 @@ class UserController extends AdminController
                 $form->input('fishing_name', $imei->name);
                 $form->input('macid', $imei->macid);
                 $form->input('project.job', $form->job_title);
-                $form->password = Hash::make($form->password);
+                if($form->model()->password != $form->password){
+                    $form->password = Hash::make($form->password);
+                }
             });
 
         });
