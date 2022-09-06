@@ -25,3 +25,4 @@ use Dcat\Admin\Show;
  *
  */
 Admin::js('/jquerycalendar/js/calendar/calendar.js');
+Admin::js('/ditu/ditu.js');

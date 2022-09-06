@@ -9,7 +9,8 @@
     Dcat.ready(function () {
         //创建地图
         var map = new AMap.Map('container{{$id}}', {
-            zoom: 4
+            center:[121.634979, 29.794411],
+            zoom: 11
         });
         AMapUI.load(['ui/misc/PathSimplifier', 'lib/$'], function (PathSimplifier, $) {
 
