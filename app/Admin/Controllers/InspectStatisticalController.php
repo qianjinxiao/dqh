@@ -43,6 +43,9 @@ class InspectStatisticalController extends BaseAdminController
      * @return Grid
      */
     public function grid_log($class,$id){
+        \Admin::js('/ditu/ditu.js');
+        \Admin::js('https://webapi.amap.com/ui/1.1/main.js?v=1.1.1');
+
         return  Grid::make(InspectClockData::with(['user','startClock','endClock'])->orderBy("id",'desc'), function (Grid $grid) use ($class,$id) {
             $grid->model()->where("project_id", $id)->where("project_type",$class);
             $grid->column('id', 'ID');
