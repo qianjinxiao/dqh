@@ -33,9 +33,9 @@ class Trajectory extends LazyRenderable
         }else{
             $adds=InspectLog::query()->where("inspect_data_id",$id)->get(DB::raw("lat,lon"))->toArray();
             foreach ($adds as &$v){
-                $d=$adds['lat'];
-                $adds['lat']=$adds['lon'];
-                $adds['lon']=$d;
+                $d=$v['lat'];
+                $v['lat']=$v['lon'];
+                $v['lon']=$d;
                 $v=array_values($v);
             }
             return view('trajectory',['id'=>$id,'adds'=>urlencode(json_encode($adds))]);
