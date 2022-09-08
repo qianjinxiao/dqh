@@ -24,6 +24,7 @@ use App\Factory\ProjectFactory;
 use App\Helpers\ResponseEnum;
 use App\Models\Check;
 use App\Models\CheckNode;
+use App\Models\Imei;
 use App\Models\Inspect\InspectClock;
 use App\Models\Inspect\InspectClockData;
 use App\Models\Inspect\InspectLog;
@@ -58,7 +59,7 @@ class InspectStatisticalService extends BaseService
             $this->throwBusinessException();
         }
 
-        try {
+//        try {
             $clock_data= \Illuminate\Support\Facades\DB::transaction(function ()use($project,$id,$data,$user,$type) {
 
                 //查询对象
@@ -68,10 +69,18 @@ class InspectStatisticalService extends BaseService
                     $lon = $data['lon'];
                     $address = $data['address'];
                 } else {
-
-                    $device_info = UserImeiService::getInstance()->location($user->mds, $user->macid);
+                    $mds=Imei::query()->where("macid", $user->macid)->value('mds');
+                    $device_info = UserImeiService::getInstance()->location($mds, $user->macid);
                     $lat = $device_info['lat'];
                     $lon = $device_info['lon'];
+                    if(isset($device_info['device_status'])){
+                        if($device_info['device_status'][0]==0){
+                            throw new BusinessException(['300001','设备未打开']);
+                        }
+                        if($device_info['device_status'][5]==0){
+                            throw new BusinessException(['300001','设备未定位']);
+                        }
+                    }
                     $address = UserImeiService::getInstance()->decode_address($lat, $lon);
                 }
                 $model = InspectClock::create([
@@ -86,6 +95,7 @@ class InspectStatisticalService extends BaseService
                     'water_level' => $data['water_level'] ?? '',
                     'report_status' => $data['report_status'] ?? 0,
                 ]);
+
                 if (!$clock_data = InspectClockData::GetUserLastClock($user, $projectModel)) {
                     //开始记录轨迹
                     $clock_data = new InspectClockData();
@@ -109,9 +119,9 @@ class InspectStatisticalService extends BaseService
             });
 
             return $clock_data;
-        } catch (\Exception $exception) {
-            $this->throwBusinessException([$exception->getCode(), $exception->getMessage()]);
-        }
+//        } catch (\Exception $exception) {
+//            $this->throwBusinessException([$exception->getCode(), $exception->getMessage()]);
+//        }
 
     }
 
