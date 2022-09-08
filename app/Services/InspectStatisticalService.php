@@ -68,8 +68,8 @@ class InspectStatisticalService extends BaseService
                     $lon = $data['lon'];
                     $address = $data['address'];
                 } else {
-                    $userimei = UserImei::getDefault($user);
-                    $device_info = UserImeiService::getInstance()->location($userimei->mds, $userimei->macid);
+
+                    $device_info = UserImeiService::getInstance()->location($user->mds, $user->macid);
                     $lat = $device_info['lat'];
                     $lon = $device_info['lon'];
                     $address = UserImeiService::getInstance()->decode_address($lat, $lon);

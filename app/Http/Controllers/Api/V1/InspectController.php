@@ -35,6 +35,7 @@ use Illuminate\Http\Request;
 class InspectController extends BaseController
 {
     public function clock(InspectClockRequest $request){
+
         $user=$request->user();
         $data=$request->only('lat','lon','address','macid');
 
