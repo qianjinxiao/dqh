@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\BaseController;
 use App\Models\Check;
 use App\Models\CheckNode;
 use App\Models\Inspect\InspectClockData;
+use App\Models\Line;
 use App\Models\Region;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -49,6 +50,8 @@ class LineController extends BaseController
         return $this->success($check);
     }
     public function node_show(CheckNode $checkNode){
+        $checkNode->line_name=Line::query()->where("id",$checkNode->line_id)->value("name");
+        $checkNode->region_name=Region::query()->where("id",$checkNode->region_id)->value("name");
         return $this->success($checkNode);
     }
     public function node_update(CheckNode $checkNode,Request $request){
