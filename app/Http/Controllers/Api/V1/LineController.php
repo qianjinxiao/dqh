@@ -52,6 +52,12 @@ class LineController extends BaseController
     public function node_show(CheckNode $checkNode){
         $checkNode->line_name=Line::query()->where("id",$checkNode->line_id)->value("name");
         $checkNode->region_name=Region::query()->where("id",$checkNode->region_id)->value("name");
+        if (is_null($checkNode->images)){
+            $checkNode->images=[];
+        }
+        if (is_null($checkNode->videos)){
+            $checkNode->videos=[];
+        }
         return $this->success($checkNode);
     }
     public function node_update(CheckNode $checkNode,Request $request){
