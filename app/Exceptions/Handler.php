@@ -56,6 +56,15 @@ class Handler extends ExceptionHandler
         }
 
         if (!$exception instanceof BusinessException) {
+            if( $code==401){
+                return response()->json([
+                    'status' => 'fail',
+                    'code' => $code,
+                    'message' => $exception->getMessage(),
+                    'data' => null,
+                    'error' => null,
+                ])->setStatusCode(500);
+            }
             return response()->json([
                 'status' => 'fail',
                 'code' => $code,
