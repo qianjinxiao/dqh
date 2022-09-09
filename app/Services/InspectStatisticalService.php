@@ -103,7 +103,7 @@ class InspectStatisticalService extends BaseService
                     $clock_data->project_id = $projectModel->id;
                     $clock_data->project_type = get_class($projectModel);
                     $clock_data->user_id = $user->id;
-                    $clock_data->macid = $data['macid'] ?? 0;
+                    $clock_data->macid = $user->macid;
                     $clock_data->status = 0;
 
                 } else {
