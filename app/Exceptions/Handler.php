@@ -63,7 +63,7 @@ class Handler extends ExceptionHandler
                     'message' => $exception->getMessage(),
                     'data' => null,
                     'error' => null,
-                ])->setStatusCode(500);
+                ])->setStatusCode(401);
             }
             return response()->json([
                 'status' => 'fail',
