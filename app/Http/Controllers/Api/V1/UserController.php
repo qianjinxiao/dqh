@@ -35,6 +35,7 @@ use App\Services\UserService;
 use Carbon\Carbon;
 use EasyWeChat\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends BaseController
@@ -194,5 +195,11 @@ class UserController extends BaseController
         }
         return $this->success();
     }
-
+    public function login_out(Request $request){
+        $user=$request->user();
+        $user->weixin_openid="";
+        $user->save();
+        auth::logout();
+        return $this->success();
+    }
 }

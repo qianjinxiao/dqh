@@ -24,6 +24,7 @@ Route::get("/home", [\App\Http\Controllers\Api\V1\UserController::class, 'home']
 Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
     //用户登陆
     Route::post("user/login", [\App\Http\Controllers\Api\V1\UserController::class, 'login']);
+
     // 第三方登录
     Route::post('socials/{social_type}/authorizations', [UserController::class, 'socialStore'])
         ->where('social_type', 'wechat')
@@ -35,7 +36,8 @@ Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
     Route::middleware('auth:api')->group(function () {
         //我的信息
         Route::get("mine", [\App\Http\Controllers\Api\V1\UserController::class, 'mine']);
-
+        //推出登陆
+        Route::post("user/login_out", [\App\Http\Controllers\Api\V1\UserController::class, 'login_out']);
         Route::post('socials/{social_type}/bind', [UserController::class, 'bind'])
             ->where('social_type', 'wechat')
             ->name('socials.authorizations.bind');
