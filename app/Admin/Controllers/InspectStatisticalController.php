@@ -63,10 +63,11 @@ class InspectStatisticalController extends BaseAdminController
 //                return "<div style='padding:10px 10px 0'>$card</div>";
 //            });
             $grid->actions(function (Grid\Displayers\Actions $action) {
+
                 $action->append(Modal::make()
                     ->lg()
                     ->title($this->title)
-                    ->body(Trajectory::make()->payload(['id' => $this->id, 'type' => 'weixin', 'macid' => $this->macid, 'user_id' => $this->user_id]))
+                    ->body(Trajectory::make()->payload(['id' => $this->id, 'type' => $this->type, 'macid' => $this->macid, 'user_id' => $this->user_id]))
                     ->button("<span class='btn btn-outline-success btn-sm'>轨迹</span>&nbsp;"));
                 $id = $this->id;
                 $action->append("<a href='/admin/check_nodes?id=$id' class='btn btn-outline-cyan btn-sm'>巡查表</a>");

@@ -28,6 +28,7 @@ use App\Http\Requests\Api\SocialAuthorizationRequest;
 use App\Http\Requests\UserLoginRequest;
 use App\Models\Farmland\Farmland;
 use App\Models\Inspect\InspectClockData;
+use App\Models\Rectification;
 use App\Models\SmallReservoirs\SmallReservoir;
 use App\Models\User;
 use App\Services\InspectStatisticalService;
@@ -109,8 +110,15 @@ class UserController extends BaseController
         $newArr['farmland'] = $farmland;
         unset($newArr['small_reservoir']);
         unset($newArr['pool']);
-        dd($newArr);
-        return $this->success($m);
+        $rectification_count = Rectification::query()->whereBetween('created_at', [Carbon::now()->startOfQuarter()->format("Y-m-d"), Carbon::now()->endOfQuarter()->format("Y-m-d")])->count();
+        $newArr['rectification'] = ["month" => Carbon::now()->startOfQuarter()->format("Y-m") . '/' . Carbon::now()->endOfQuarter()->format("Y-m"),
+            "day" => $rectification_count,
+            "project_type" => "rectification",
+            "name" => "整改情况",
+            "days" => Carbon::now()->startOfQuarter()->diffInDays(Carbon::now()->endOfQuarter()),
+            "percent" =>  round($rectification_count/Carbon::now()->startOfQuarter()->diffInDays(Carbon::now()->endOfQuarter())*100)."%",
+        ];
+        return $this->success($newArr);
     }
 
     public function login(UserLoginRequest $request)

@@ -23,9 +23,8 @@ class Trajectory extends LazyRenderable
     {
         $id=$this->payload['id'];
         $type=$this->payload['type'];
-        if($type=="GPS"){
+        if($type==2){
             $macid=$this->payload['macid'];
-            $user=User::query()->find($this->user_id);
             $data=InspectClockData::query()->find($id);
             $ui=Imei::query()->where(['macid'=>$data->macid])->first();
             $a=\App\Services\UserImeiService::getInstance()->routerPass($macid,$ui->mds);

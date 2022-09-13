@@ -61,7 +61,7 @@ Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
 //        //绑定设备
 //        Route::post("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'bind']);
 //        //删除设备
-//        Route::delete("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'un_bind']);
+        Route::delete("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'un_bind']);
 //        //我的设备列表
 //        Route::get("emei", [\App\Http\Controllers\Api\V1\ImeisController::class, 'list']);
 //        //默认设备

@@ -76,9 +76,10 @@ class ImeisController extends BaseController
     public function un_bind(Request $request)
     {
         $user = $request->user();
-        $macid = $request->input('macid');
-//        UserImeiService::getInstance()->un_bind($user, $macid);
-        UserImei::query()->where(['user_id'=>$user->id,'macid'=>$macid])->delete();
+        $user->mds="";
+        $user->macid="";
+        $user->fishing_name="";
+        $user->save();
         return $this->success();
     }
     public function c_default($id,Request $request){

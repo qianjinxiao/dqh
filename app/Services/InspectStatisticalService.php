@@ -60,65 +60,68 @@ class InspectStatisticalService extends BaseService
         }
 
 //        try {
-            $clock_data= \Illuminate\Support\Facades\DB::transaction(function ()use($project,$id,$data,$user,$type) {
+        $clock_data = \Illuminate\Support\Facades\DB::transaction(function () use ($project, $id, $data, $user, $type) {
 
-                //查询对象
-                $projectModel = $project->where('id', $id)->first();
-                if (!in_array($type, self::$gps_type)) {
+            $projectModel = $project->where('id', $id)->first();
+            $mds = Imei::query()->where("macid", $user->macid)->value('mds');
+            if( $mds==""){
+                $lat = $data['lat'];
+                $lon = $data['lon'];
+                $address = $data['address'];
+                $type = 1;//手机定位
+            }else{
+                $device_info = UserImeiService::getInstance()->location($mds, $user->macid);
+                if (!isset($device_info['device_status']) || $device_info['device_status'][0] == 0 || $device_info['device_status'][5] == 0) {
                     $lat = $data['lat'];
                     $lon = $data['lon'];
                     $address = $data['address'];
+                    $type = 1;//手机定位
                 } else {
-                    $mds=Imei::query()->where("macid", $user->macid)->value('mds');
-                    $device_info = UserImeiService::getInstance()->location($mds, $user->macid);
                     $lat = $device_info['lat'];
                     $lon = $device_info['lon'];
-                    if(isset($device_info['device_status'])){
-                        if($device_info['device_status'][0]==0){
-                            throw new BusinessException(['300001','设备未打开']);
-                        }
-                        if($device_info['device_status'][5]==0){
-                            throw new BusinessException(['300001','设备未定位']);
-                        }
-                    }
                     $address = UserImeiService::getInstance()->decode_address($lat, $lon);
+                    $type = 2;//设备打卡
                 }
-                $model = InspectClock::create([
-                    'user_id' => $user->id,
-                    'project_id' => $projectModel->id,
-                    'project_type' => get_class($projectModel),
-                    'address' => $address,
-                    'lat' => $lat,
-                    'lon' => $lon,
-                    'device_info' => json_encode($device_info ?? []),
-                    'time' => Carbon::now(),
-                    'water_level' => $data['water_level'] ?? '',
-                    'report_status' => $data['report_status'] ?? 0,
-                ]);
+            }
 
-                if (!$clock_data = InspectClockData::GetUserLastClock($user, $projectModel)) {
-                    //开始记录轨迹
-                    $clock_data = new InspectClockData();
-                    $clock_data->start_clock_id = $model->id;
-                    $clock_data->project_id = $projectModel->id;
-                    $clock_data->project_type = get_class($projectModel);
-                    $clock_data->user_id = $user->id;
-                    $clock_data->macid = $user->macid;
-                    $clock_data->status = 0;
 
-                } else {
-                    //结束记录轨迹
-                    $clock_data->status = 1;
-                    $clock_data->end_clock_id = $model->id;
-                };
-                $clock_data->save();
-                if ($clock_data->status == 0) {
-                    $this->saveCheck($user, $clock_data, 1);
-                }
-                return $clock_data;
-            });
+            $model = InspectClock::create([
+                'user_id' => $user->id,
+                'project_id' => $projectModel->id,
+                'project_type' => get_class($projectModel),
+                'address' => $address,
+                'lat' => $lat,
+                'lon' => $lon,
+                'device_info' => json_encode($device_info ?? []),
+                'time' => Carbon::now(),
+                'water_level' => $data['water_level'] ?? '',
+                'report_status' => $data['report_status'] ?? 0,
+            ]);
 
+            if (!$clock_data = InspectClockData::GetUserLastClock($user, $projectModel)) {
+                //开始记录轨迹
+                $clock_data = new InspectClockData();
+                $clock_data->start_clock_id = $model->id;
+                $clock_data->project_id = $projectModel->id;
+                $clock_data->project_type = get_class($projectModel);
+                $clock_data->user_id = $user->id;
+                $clock_data->macid = $user->macid;
+                $clock_data->status = 0;
+                $clock_data->type=$type;
+
+            } else {
+                //结束记录轨迹
+                $clock_data->status = 1;
+                $clock_data->end_clock_id = $model->id;
+            };
+            $clock_data->save();
+            if ($clock_data->status == 0) {
+                $this->saveCheck($user, $clock_data, 1);
+            }
             return $clock_data;
+        });
+
+        return $clock_data;
 //        } catch (\Exception $exception) {
 //            $this->throwBusinessException([$exception->getCode(), $exception->getMessage()]);
 //        }
@@ -182,7 +185,7 @@ class InspectStatisticalService extends BaseService
             'user_name' => $user->name,
             'user_id' => $user->id,
         ]);
-        Line::query()->where("project_id", $inspect_data->project_id)->where("project_type", $inspect_data->project_type)->where("type", $type)->select('id','region_id')->orderBy('order')->get()->each(function ($item) use ($check) {
+        Line::query()->where("project_id", $inspect_data->project_id)->where("project_type", $inspect_data->project_type)->where("type", $type)->select('id', 'region_id')->orderBy('order')->get()->each(function ($item) use ($check) {
             CheckNode::query()->create([
                 'check_id' => $check->id,
                 'line_id' => $item->id,
